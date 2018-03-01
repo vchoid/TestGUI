@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -74,12 +76,22 @@ public class JSONFileHandler {
 
 	// --> Exception-Handling --------------------------------------------------
 	private Exception e;
+	private String excMessage;
+
+	// --> RegEx Handling ------------------------------------------------------
+	private Pattern pattern;
+	private Matcher matcher;
+	// >> IP-Adresse <<
+	private static final String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
 	// #########################################################################
 	// ## Initialisieren #######################################################
 	// #########################################################################
 	public JSONFileHandler() {
-//		init();
+		init();
 	}
 	/**
 	 * Initialisiert die Datei mit der {@link #parseFileAsJSONObject()}-Methode.
@@ -101,12 +113,13 @@ public class JSONFileHandler {
 	 */
 	private void addEmptyJsonFileTemplate() {
 		writeInFile(emptyPSTemplate.getPortServerTemplate());
+		setExcMessage(emptyPSTemplate.getMessage());
 	}
 	/**
-	 * Lie�t Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
+	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
 	 */
 	private void parseFileAsJSONObject() {
-		// Datei �ber einen Stream einlesen
+		// Datei über einen Stream einlesen
 		try {
 			input = new FileInputStream(getFile());
 			reader = new BufferedReader(new InputStreamReader(input));
@@ -130,7 +143,8 @@ public class JSONFileHandler {
 			writer = new BufferedWriter(new OutputStreamWriter(out));
 			writer.write(content);
 			// TODO l�schen!
-			System.out.print(" -> gespeichert in Datei.");
+			setExcMessage("... gespeichert in Datei.");
+			System.out.println("... gespeichert in Datei.");
 			writer.close();
 			System.out.println(" >> 'writer' geschlossen!");
 		} catch (IOException e) {
@@ -151,8 +165,21 @@ public class JSONFileHandler {
 
 	}
 	// #########################################################################
-	// ## Pr�fen auf validen Inhalt ############################################
+	// ## Prüfen auf validen Inhalt ############################################
 	// #########################################################################
+	/**
+	 * Validiert Werte mit einem Pattern. Lädt zuert das jeweilige Pattern und
+	 * überprüft ob der String dem RegEx-Pattern entspricht.
+	 * 
+	 * @param patternString
+	 * @param inputString
+	 * @return
+	 */
+	public boolean validatePattern(String patternString, final String inputString) {
+		pattern = Pattern.compile(patternString);
+		matcher = pattern.matcher(inputString);
+		return matcher.matches();
+	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
 	 * 
@@ -197,6 +224,7 @@ public class JSONFileHandler {
 	private Boolean isPortAvailable(Port port) {
 		if (isValueInArray(getPortsArray(), "port", "" + port.getPort())
 				|| isValueInArray(getPortsArray(), "name", port.getName())) {
+			setExcMessage("... bereits vorhanden");
 			// TODO l�schen !
 			System.out.print("\n  -> vorhanden");
 			return true;
@@ -204,6 +232,7 @@ public class JSONFileHandler {
 		return false;
 
 	}
+
 	/**
 	 * Pr�ft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
 	 * ob der Server bereits im Array vorhanden ist. Wenn ja dann gib ein true
@@ -214,12 +243,15 @@ public class JSONFileHandler {
 	 * @return
 	 */
 	private Boolean isServerAvailable(Server server) {
-		if (isValueInArray(getServerArray(), "ip", server.getIp())
-				|| isValueInArray(getServerArray(), "name", server.getName())
-				|| isValueInArray(getServerArray(), "host", server.getHost())) {
-			// TODO l�schen !
-			System.out.print("\n  -> vorhanden");
-			return true;
+		if (validatePattern(IPADDRESS_PATTERN, server.getIp())) {
+			if (isValueInArray(getServerArray(), "ip", server.getIp())
+					|| isValueInArray(getServerArray(), "name", server.getName())
+					|| isValueInArray(getServerArray(), "host", server.getHost())) {
+				setExcMessage("... bereits vorhanden");
+				// TODO l�schen !
+				System.out.print("\n  -> vorhanden");
+				return true;
+			}
 		}
 		return false;
 	}
@@ -398,6 +430,7 @@ public class JSONFileHandler {
 	 */
 	public void deletePort(String portName) {
 		deleteValuesFromArray(getPortsArray(), "ports", portName);
+		setExcMessage("... gelöscht");
 	}
 	/**
 	 * L�scht ein Server anhand des Parameters mit der
@@ -407,6 +440,7 @@ public class JSONFileHandler {
 	 */
 	public void deleteServer(String serverName) {
 		deleteValuesFromArray(getServerArray(), "server", serverName);
+		setExcMessage("... gelöscht");
 	}
 
 	// #########################################################################
@@ -450,10 +484,12 @@ public class JSONFileHandler {
 			} else {
 				// TODO l�schen!
 				System.out.println("  -> keine doppelten Werte erlaubt");
+				setExcMessage("keine doppelten Werte erlaubt");
 			}
 		} else {
 			System.out.print(oldVal);
 			System.out.println(" -> nicht gefunden");
+			setExcMessage("nicht gefunden");
 		}
 	}
 	/**
@@ -542,6 +578,13 @@ public class JSONFileHandler {
 	}
 	public void setE(Exception e) {
 		this.e = e;
+	}
+
+	public String getExcMessage() {
+		return excMessage;
+	}
+	public void setExcMessage(String excMessage) {
+		this.excMessage = excMessage;
 	}
 
 }

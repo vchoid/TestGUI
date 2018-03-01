@@ -2,6 +2,8 @@ package tools;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Ein Server-Objekt anlegen. Entweder mit der IP-Adresse oder der Host-Adresse.
@@ -16,12 +18,26 @@ public class Server {
 	private String host;
 	private String ip;
 	private InetAddress inet;
+	private String excMessage;
+
+	private static final String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+	private Pattern pattern;
+	private Matcher matcher;
 
 	public Server(String name) {
 		super();
 		this.name = name;
-
 	}
+	public boolean validate(final String ip) {
+		pattern = Pattern.compile(IPADDRESS_PATTERN);
+		matcher = pattern.matcher(ip);
+		return matcher.matches();
+	}
+
 	/**
 	 * Zum Server-Objekt eine IP-Adresse hinzuf�gen. Der Host wird automatisch
 	 * ermittelt und hinzugef�gt.
@@ -30,14 +46,19 @@ public class Server {
 	 * @return
 	 */
 	public Server createServerViaIP(String ip) {
-		try {
-			inet = InetAddress.getByName(ip);
-		} catch (UnknownHostException e) {
-			// TODO löschen
-			System.out.print(" -> Unbekannte IP-Adresse");
+		System.out.println(validate(ip));
+		if (!validate(ip)) {
+			System.out.println("Ungültige IP-Adresse");
+			setExcMessage("Ungültige IP-Adresse");
+		} else {
+			try {
+				inet = InetAddress.getByName(ip);
+			} catch (UnknownHostException e) {
+				// wird mit der validate()-Methode überprüft
+			}
+			this.ip = ip;
+			this.host = inet.getHostName();
 		}
-		this.ip = ip;
-		this.host = inet.getHostName();
 		return this;
 	}
 	/**
@@ -82,4 +103,10 @@ public class Server {
 		this.name = name;
 	}
 
+	public String getExcMessage() {
+		return excMessage;
+	}
+	public void setExcMessage(String excMessage) {
+		this.excMessage = excMessage;
+	}
 }
