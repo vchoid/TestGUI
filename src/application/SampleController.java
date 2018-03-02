@@ -11,14 +11,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import tools.JSONFileContentInAList;
 import tools.JSONFileHandler;
 import tools.Port;
 import tools.RegExValidator;
 import tools.Server;
 
-public class SampleController implements Initializable {
+public class SampleController {
 
 	private JSONFileHandler jf = new JSONFileHandler();
+	private JSONFileContentInAList jfList = new JSONFileContentInAList();
 	private RegExValidator rv = new RegExValidator();
 	private Port p;
 	private Server s;
@@ -63,9 +65,7 @@ public class SampleController implements Initializable {
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	/**
-	 * Überprüft ob in den Eingabefeld für die IP-Adresse Werte geschrieben
-	 * wurden. Wenn Werte in den Feldern sind füge sie zu einem String zusammen.
-	 * Überprüfe ob der String ein gültige IP-Adresse ist.
+	 * Überprüft ob gültige Werte in den Feldern geschrieben wurden.
 	 * 
 	 * @return true wenn Feld nicht leer und gültige IP-Adresse
 	 */
@@ -103,10 +103,14 @@ public class SampleController implements Initializable {
 		sAddr4TField.clear();
 	}
 
+	public void loadPortList(){
+		
+	}
+	
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	/**
-	 * Überprüft ob gültige Werte in den Feldern gibt.
+	 * Überprüft ob gültige Werte in den Feldern geschrieben wurden.
 	 * @return
 	 */
 	private boolean isPortFieldValid() {
@@ -133,9 +137,6 @@ public class SampleController implements Initializable {
 		clearPortField();
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-
-	}
+	
 
 }

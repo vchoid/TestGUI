@@ -17,22 +17,16 @@ public class JSONFileContentInAList {
 	private ArrayList<String> serverNameList = new ArrayList<>();
 	private ArrayList<String> ipList = new ArrayList<>();
 	private ArrayList<String> hostList = new ArrayList<>();
-	private ArrayList<ArrayList<String>> connectArray;
-	private ArrayList<String> portConnArray;
-	private String serverName = "";
-	private String portName = "";
-	private String host = "";
-
-	
 
 	
 	// #########################################################################
 	// ## Initialisieren 													   #
 	// #########################################################################
-	public JSONFileContentInAList() {
-		setPortServerValuesInAList();
+	
+	public void init() {
+		saveServerValuesInAList();
+		savePortValuesInAList();
 	}
-
 	// #########################################################################
 	// ## Daten als für View												   #
 	// #########################################################################
@@ -55,22 +49,18 @@ public class JSONFileContentInAList {
 		}
 	}
 	/**
-	 * Speichert folgende Werte aus den Server- und Port-Arrays in neue Listen.
+	 * Speichert folgende Werte aus den Server-Arrays in neue Listen.
 	 * 
 	 * <p>
 	 * <b>Werte:</b>
 	 * <ul>
-	 * <li><b>Port als Integer</b></li>
 	 * <li><b>Servername als String</b></li>
-	 * <li><b>ServerIP als String</b></li>
+	 * <li><b>IP-Adressen als String</b></li>
+	 * <li><b>Host als String</b></li>
 	 * </ul>
 	 * </p>
 	 */
-	private void setPortServerValuesInAList() {
-		// die Port-Werte in neue Liste speichern
-		saveValuesInArray(jfh.getPortsArray(), "port", portList);
-		// die Port-Werte in neue Liste speichern
-		saveValuesInArray(jfh.getPortsArray(), "name", portNameList);
+	public void saveServerValuesInAList() {
 		// Servername in neue List speichern
 		saveValuesInArray(jfh.getServerArray(), "name", serverNameList);
 		// IP-Adressen aus Server-Array in neue List speichern
@@ -78,20 +68,30 @@ public class JSONFileContentInAList {
 		// Host-Adressen aus Server-Array in neue List speichern
 		saveValuesInArray(jfh.getServerArray(), "host", hostList);
 	}
-	
-	
+	/**
+	 * Speichert folgende Werte aus den Port-Arrays in neue Listen.
+	 * 
+	 * <p>
+	 * <b>Werte:</b>
+	 * <ul>
+	 * <li><b>Portname als String</b></li>
+	 * <li><b>Port als Integer</b></li>
+	 * </ul>
+	 * </p>
+	 */
+	public void savePortValuesInAList() {
+		// die Port-Werte in neue Liste speichern
+		saveValuesInArray(jfh.getPortsArray(), "port", portList);
+		// die Port-Werte in neue Liste speichern
+		saveValuesInArray(jfh.getPortsArray(), "name", portNameList);
+	}
 
 	
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################
 	// --> Daten für die View --------------------------------------------------
-	public String getHost() {
-		return host;
-	}
-	public void setHost(String host) {
-		this.host = host;
-	}
+	
 	public ArrayList<String> getHostList() {
 		return hostList;
 	}
@@ -110,30 +110,8 @@ public class JSONFileContentInAList {
 	public ArrayList<String> getPortNameList() {
 		return portNameList;
 	}
-	public ArrayList<ArrayList<String>> getConnectArray() {
-		return connectArray;
-	}
-	
-	public ArrayList<String> getPortConnArray() {
-		return portConnArray;
-	}
-	public void setPortConnArray(ArrayList<String> portConnArray) {
-		this.portConnArray = portConnArray;
-	}
 	// --> Array Iteration -----------------------------------------------------
 
-	public String getServerName() {
-		return serverName;
-	}
-	public void setServerName(String serverName) {
-		this.serverName = serverName;
-	}
-	public String getPortName() {
-		return portName;
-	}
-	public void setPortName(String portName) {
-		this.portName = portName;
-	}
 	
 
 }

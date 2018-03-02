@@ -82,7 +82,7 @@ public class JSONFileHandler {
 	// ## Initialisieren #######################################################
 	// #########################################################################
 	public JSONFileHandler() {
-		init();
+//		init();
 	}
 	/**
 	 * Initialisiert die Datei mit der {@link #parseFileAsJSONObject()}-Methode.
