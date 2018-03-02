@@ -26,7 +26,7 @@ import com.google.gson.JsonObject;
  * 
  * Inhalte aus der Server_Ports.JSON wird zur Weiterverarbeitung vorbereitet.
  * 
- * Zus�tzlich stellt die Klasse Methoden zum Schreiben, �ndern und L�schen der
+ * Zusätzlich stellt die Klasse Methoden zum Schreiben, ändern und Löschen der
  * Daten bereit.</br>
  * 
  * <p>
@@ -43,7 +43,7 @@ import com.google.gson.JsonObject;
  * <b>{@link #addServerViaIP(String, String)}</b></li>
  * <li>Einen Servereintrag bearbeiten:
  * <b>{@link #editServer(String, String, String)}</b></li>
- * <li>Einen Servereintrag l�schen: <b>{@link #deleteServer(String)}</b></li>
+ * <li>Einen Servereintrag löschen: <b>{@link #deleteServer(String)}</b></li>
  * </ul>
  * </p>
  * 
@@ -78,15 +78,6 @@ public class JSONFileHandler {
 	private Exception e;
 	private String excMessage;
 
-	// --> RegEx Handling ------------------------------------------------------
-	private Pattern pattern;
-	private Matcher matcher;
-	// >> IP-Adresse <<
-	private static final String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-
 	// #########################################################################
 	// ## Initialisieren #######################################################
 	// #########################################################################
@@ -109,7 +100,7 @@ public class JSONFileHandler {
 		setPortServerValuesInAList();
 	}
 	/**
-	 * Vorlageninhalt f�r leere JSON-Datei.
+	 * Vorlageninhalt für leere JSON-Datei.
 	 */
 	private void addEmptyJsonFileTemplate() {
 		writeInFile(emptyPSTemplate.getPortServerTemplate());
@@ -132,7 +123,7 @@ public class JSONFileHandler {
 	}
 
 	/**
-	 * Schreibt Inhalt(Parameter content) in der JSON-Datei und schlie�t den
+	 * Schreibt Inhalt(Parameter content) in der JSON-Datei und schließt den
 	 * Writer.
 	 * 
 	 * @param content
@@ -168,27 +159,14 @@ public class JSONFileHandler {
 	// ## Prüfen auf validen Inhalt ############################################
 	// #########################################################################
 	/**
-	 * Validiert Werte mit einem Pattern. Lädt zuert das jeweilige Pattern und
-	 * überprüft ob der String dem RegEx-Pattern entspricht.
-	 * 
-	 * @param patternString
-	 * @param inputString
-	 * @return
-	 */
-	public boolean validatePattern(String patternString, final String inputString) {
-		pattern = Pattern.compile(patternString);
-		matcher = pattern.matcher(inputString);
-		return matcher.matches();
-	}
-	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
 	 * 
-	 * JSONArray wird durchlaufen, jeder Eintrag wird tempor�r gespeichert und
-	 * �berpr�ft ob der gesuchte Parameter sich im Array befindet. Wenn ja,
+	 * JSONArray wird durchlaufen, jeder Eintrag wird temporär gespeichert und
+	 * überprüft ob der gesuchte Parameter sich im Array befindet. Wenn ja,
 	 * speichere den Eintrag selbst mit der
 	 * {@link #setSearchElement(JsonElement)}-Methode und die Position mit der
 	 * {@link #setPositionInArray(int)}-Methode, wo sich der Eintrag im Array
-	 * befindet. Wenn ja dann, gib true zur�ck. Ansonsten false.
+	 * befindet. Wenn ja dann, gib true zurück. Ansonsten false.
 	 * 
 	 * 
 	 * @param value
@@ -213,9 +191,9 @@ public class JSONFileHandler {
 		return false;
 	}
 	/**
-	 * Pr�ft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
+	 * Prüft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
 	 * ob der Port bereits im Array vorhanden ist. Wenn ja dann gib ein true
-	 * zur�ck.
+	 * zurück.
 	 * 
 	 * @param name
 	 * @param port
@@ -234,24 +212,22 @@ public class JSONFileHandler {
 	}
 
 	/**
-	 * Pr�ft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
+	 * Prüft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
 	 * ob der Server bereits im Array vorhanden ist. Wenn ja dann gib ein true
-	 * zur�ck.
+	 * zurück.
 	 * 
 	 * @param name
 	 * @param ipOrHost
 	 * @return
 	 */
 	private Boolean isServerAvailable(Server server) {
-		if (validatePattern(IPADDRESS_PATTERN, server.getIp())) {
-			if (isValueInArray(getServerArray(), "ip", server.getIp())
-					|| isValueInArray(getServerArray(), "name", server.getName())
-					|| isValueInArray(getServerArray(), "host", server.getHost())) {
-				setExcMessage("... bereits vorhanden");
-				// TODO l�schen !
-				System.out.print("\n  -> vorhanden");
-				return true;
-			}
+		if (isValueInArray(getServerArray(), "ip", server.getIp())
+				|| isValueInArray(getServerArray(), "name", server.getName())
+				|| isValueInArray(getServerArray(), "host", server.getHost())) {
+			setExcMessage("... bereits vorhanden");
+			// TODO l�schen !
+			System.out.print("\n  -> vorhanden");
+			return true;
 		}
 		return false;
 	}
@@ -260,7 +236,7 @@ public class JSONFileHandler {
 	// ## add-Methode ##########################################################
 	// #########################################################################
 	/**
-	 * F�gt ein neue Objekt in ein Array.
+	 * Fügt ein neue Objekt in ein Array.
 	 * 
 	 * @param array
 	 * @param newObject
@@ -283,7 +259,7 @@ public class JSONFileHandler {
 		writeInFile(getJsonObj().toString());
 	}
 	/**
-	 * F�gt mit der {@link #addNewObjectInArray(JsonArray, JsonObject)}-Methode
+	 * Fügt mit der {@link #addNewObjectInArray(JsonArray, JsonObject)}-Methode
 	 * das Objekt in das Array ein und schreibt mit
 	 * der{@link #addNewArrayInJSONFile(JsonArray, String)}-Methode das Objekt
 	 * in die Datei.
@@ -304,7 +280,7 @@ public class JSONFileHandler {
 
 	// --> Port ------------------------------------------------------------
 	/**
-	 * F�gt zwei Key-Value Paare f�r das PortsArray hinzu.
+	 * Fügt zwei Key-Value Paare f�r das PortsArray hinzu.
 	 * 
 	 * @param port
 	 */
@@ -316,9 +292,9 @@ public class JSONFileHandler {
 	/**
 	 * Ein Port in die Server_Ports.JSON-Datei schreiben
 	 * 
-	 * {@link #addPortValues(Port)} f�gt Werte dem Port-Objekt hinzu.
+	 * {@link #addPortValues(Port)} fügt Werte dem Port-Objekt hinzu.
 	 * 
-	 * �berpr�ft mit der {@link #isPortAvailable(Port)}-Methode, ob die Werte
+	 * überprüft mit der {@link #isPortAvailable(Port)}-Methode, ob die Werte
 	 * bereits in dem Port-Objekt vorhanden sind. Wenn nicht, werden die neue
 	 * Werte mit der
 	 * {@link #addObjectInArrayAndWriteInFile(JsonArray, JsonObject, String)}-Methode
@@ -338,7 +314,7 @@ public class JSONFileHandler {
 	}
 	// --> Server ----------------------------------------------------------
 	/**
-	 * F�gt drei Key-Value Paare f�r das Server-Array hinzu.
+	 * Fügt drei Key-Value Paare für das Server-Array hinzu.
 	 * 
 	 * @param server
 	 */
@@ -352,20 +328,20 @@ public class JSONFileHandler {
 	/**
 	 * Ein Server in die Server_Ports.JSON-Datei schrieben
 	 * 
-	 * {@link #addServerValues(Server)} f�gt Werte dem Server-Objekt hinzu.
+	 * {@link #addServerValues(Server)} fügt Werte dem Server-Objekt hinzu.
 	 * 
-	 * �berpr�ft mit der {@link #isServerAvailable(Server)}-Methode, ob die
+	 * überprüft mit der {@link #isServerAvailable(Server)}-Methode, ob die
 	 * Werte bereits in dem Server-Objekt vorhanden sind. Wenn nicht, werden die
 	 * neue Werte mit der
 	 * {@link #addObjectInArrayAndWriteInFile(JsonArray, JsonObject, String)}-Methode
-	 * dem Array hinzugef�gt und in die Datei geschrieben.
+	 * dem Array hinzugefügt und in die Datei geschrieben.
 	 * 
 	 * @param server
 	 */
 	public void addServer(Server server) {
 		// neues Objekt mit drei Key-Value-Paare anlegen
 		addServerValues(server);
-		// pr�fen ob bereits vorhanden
+		// prüfen ob bereits vorhanden
 		if (!isServerAvailable(server)) {
 			// neuen validen Wert schreiben
 			addObjectInArrayAndWriteInFile(getServerArray(), newServer,
@@ -376,9 +352,9 @@ public class JSONFileHandler {
 	// ## delete Methoden ######################################################
 	// #########################################################################
 	/**
-	 * L�scht einen Wert aus einem Array. �berpr�ft mit der
+	 * Löscht einen Wert aus einem Array. überprüft mit der
 	 * {@link #isValueInArray(JsonArray, String, String)}-Methode, ob der Wert
-	 * im Array ist, wenn ja wird der Eintrag �ber die
+	 * im Array ist, wenn ja wird der Eintrag über die
 	 * {@link #getPositionInArray()}-Methode ermittelt und aus dem Array
 	 * entfernt. Der Wert Success wird auf true gesetzt.
 	 * 
@@ -405,7 +381,7 @@ public class JSONFileHandler {
 	/**
 	 * Entfernt Werte aus einem Array mit der
 	 * {@link #removeValueFromArray(String, JsonArray)}-Methode. Mit der
-	 * {@link #getSuccess()}-Methode, wird �berpr�ft, ob die
+	 * {@link #getSuccess()}-Methode, wird überpr�ft, ob die
 	 * {@link #removeValueFromArray(String, JsonArray)}-Methode erfolgreich war.
 	 * Wenn ja wird das neue Array mit der
 	 * {@link #addNewArrayInJSONFile(JsonArray, String)}-Methode in die Datei
@@ -423,7 +399,7 @@ public class JSONFileHandler {
 		}
 	}
 	/**
-	 * L�scht ein Port anhand des Parameters mit der
+	 * Löscht ein Port anhand des Parameters mit der
 	 * {@link #deleteValuesFromArray(JsonArray, String, String)}-Methode.
 	 * 
 	 * @param name
@@ -433,7 +409,7 @@ public class JSONFileHandler {
 		setExcMessage("... gelöscht");
 	}
 	/**
-	 * L�scht ein Server anhand des Parameters mit der
+	 * Löscht ein Server anhand des Parameters mit der
 	 * {@link #deleteValuesFromArray(JsonArray, String, String)}-Methode..
 	 * 
 	 * @param name
@@ -448,11 +424,11 @@ public class JSONFileHandler {
 	// #########################################################################
 	/**
 	 * 
-	 * Ver�ndert einzelne Wertepaare aus dem Array.
+	 * Verändert einzelne Wertepaare aus dem Array.
 	 * 
-	 * �berpr�ft zuerst ob der alte Wert existiert. Speichert tempor�r das
-	 * Array. �berpr�ft als n�chstes, ob der neue Wert nicht schon vorhanden
-	 * ist. Wenn er nicht existiert, dann f�ge den neuen Wert dem Array hinzu
+	 * überprüft zuerst ob der alte Wert existiert. Speichert tempor�r das
+	 * Array. überprüft als nächstes, ob der neue Wert nicht schon vorhanden
+	 * ist. Wenn er nicht existiert, dann füge den neuen Wert dem Array hinzu
 	 * und schreibe das neue Array in die Datei.
 	 * 
 	 * @param jArray
@@ -467,10 +443,10 @@ public class JSONFileHandler {
 		System.out.println();
 
 		System.out.println("\n////////////// BEARBEITEN //////////////");
-		// �berpr�fen ob der alter Wert �berhaupt existiert
+		// überprüfen ob der alter Wert überhaupt existiert
 		if (isValueInArray(jArray, key, oldVal)) {
 			JsonObject temp = (JsonObject) jArray.get(getPositionInArray());
-			// �berpr�fen ob der neue Wert bereits existiert
+			// überprüfen ob der neue Wert bereits existiert
 			if (!isValueInArray(jArray, key, newVal)) {
 				// �berpr�fen ob Ports vom Typ Integer ver�ndert werden sollen
 				if (jArray == getPortsArray() && key == "port") {
@@ -494,7 +470,7 @@ public class JSONFileHandler {
 	}
 	/**
 	 * 
-	 * Ver�ndert den Port aus dem Port-Array mit der
+	 * Verändert den Port aus dem Port-Array mit der
 	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode.
 	 * 
 	 * @param oldVal
@@ -506,7 +482,7 @@ public class JSONFileHandler {
 	}
 
 	/**
-	 * Ver�ndert den Namen aus dem Port-Array mit der
+	 * Verändert den Namen aus dem Port-Array mit der
 	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode..
 	 * 
 	 * @param oldVal
@@ -516,7 +492,7 @@ public class JSONFileHandler {
 		editValuesFromArray(getPortsArray(), "ports", "name", oldVal, newVal);
 	}
 	/**
-	 * Ver�ndert einzelne Wertepaare aus dem Server-Array mit der
+	 * Verändert einzelne Wertepaare aus dem Server-Array mit der
 	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode..
 	 * 
 	 * @param key

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 /**
  * Ein Server-Objekt anlegen. Entweder mit der IP-Adresse oder der Host-Adresse.
- * Der jeweils fehlende Wert wird automatisch erg�nzt.
+ * Der jeweils fehlende Wert wird automatisch erganzt.
  * 
  * @author Christoph Kiank
  * @version 1.0.0
@@ -39,31 +39,31 @@ public class Server {
 	}
 
 	/**
-	 * Zum Server-Objekt eine IP-Adresse hinzuf�gen. Der Host wird automatisch
-	 * ermittelt und hinzugef�gt.
+	 * Zum Server-Objekt eine IP-Adresse hinzufügen. Der Host wird automatisch
+	 * ermittelt und hinzugefügt.
 	 * 
 	 * @param ip
 	 * @return
 	 */
 	public Server createServerViaIP(String ip) {
 		System.out.println(validate(ip));
-		if (!validate(ip)) {
-			System.out.println("Ungültige IP-Adresse");
-			setExcMessage("Ungültige IP-Adresse");
-		} else {
+//		if (!validate(ip)) {
+//			System.out.println("Ungültige IP-Adresse");
+//			setExcMessage("Ungültige IP-Adresse");
+//		} else {
 			try {
 				inet = InetAddress.getByName(ip);
+				this.host = inet.getHostName();
+				this.ip = ip;
 			} catch (UnknownHostException e) {
 				// wird mit der validate()-Methode überprüft
 			}
-			this.ip = ip;
-			this.host = inet.getHostName();
-		}
+//		}
 		return this;
 	}
 	/**
 	 * Zum Server-Objekt ein Host-Adresse hinzuf�gen. Die IP wird automatisch
-	 * ermittelt und hinzugef�gt.
+	 * ermittelt und hinzugefügt.
 	 * 
 	 * @param host
 	 * @return
