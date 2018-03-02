@@ -2,9 +2,9 @@ package application;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import tools.Port;
 import tools.RegExValidator;
 import tools.Server;
 
-public class SampleController {
+public class SampleController implements Initializable {
 
 	private JSONFileHandler jf = new JSONFileHandler();
 	private JSONFileContentInAList jfList = new JSONFileContentInAList();
@@ -45,7 +45,7 @@ public class SampleController {
 	@FXML
 	private TextField sAddr4TField;
 	@FXML
-	private ChoiceBox serverChoiceBox;
+	private ChoiceBox<String> serverChoiceBox;
 	@FXML
 	private Button delServerButton;
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -58,7 +58,7 @@ public class SampleController {
 	@FXML
 	private TextField portAddrTField;
 	@FXML
-	private ChoiceBox portChoiceBox;
+	private ChoiceBox<String> portChoiceBox;
 	@FXML
 	private Button delPortButton;
 
@@ -103,21 +103,28 @@ public class SampleController {
 		sAddr4TField.clear();
 	}
 
-	public void loadPortList(){
-		
+	public void loadPortList() {
+		jfList.savePortValuesInAList();;
+		ObservableList<String> ports = FXCollections.observableArrayList();
+		for (String s : jfList.getPortNameList()) {
+			ports.add(s);
+		}
+		portChoiceBox.setItems(ports);
+		jf.init();
 	}
-	
+
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	/**
 	 * Überprüft ob gültige Werte in den Feldern geschrieben wurden.
+	 * 
 	 * @return
 	 */
 	private boolean isPortFieldValid() {
 		if (!portNameTField.getText().isEmpty()
 				|| !portAddrTField.getText().isEmpty()) {
-			if(rv.validateOnlyNumField(portAddrTField.getText())) {
-			return true;
+			if (rv.validateOnlyNumField(portAddrTField.getText())) {
+				return true;
 			}
 		}
 		return false;
@@ -137,6 +144,8 @@ public class SampleController {
 		clearPortField();
 	}
 
-	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+	}
 
 }

@@ -116,7 +116,8 @@ public class JSONFileHandler {
 			reader = new BufferedReader(new InputStreamReader(input));
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
-		} catch (FileNotFoundException e) {
+			reader.close();
+		} catch (IOException e) {
 			addEmptyJsonFileTemplate();
 			init();
 		}

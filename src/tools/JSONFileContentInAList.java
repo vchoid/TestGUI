@@ -8,20 +8,26 @@ import com.google.gson.JsonObject;
 
 public class JSONFileContentInAList {
 
-	// ## Variablen ############################################################
-	private JSONFileHandler jfh;
-
+	// #########################################################################
+	// ## Variablen 														   #
+	// #########################################################################
+	
+	private JSONFileHandler jfh = new JSONFileHandler();
 	// --> Listen für View -----------------------------------------------------
 	private ArrayList<String> portList = new ArrayList<>();
 	private ArrayList<String> portNameList = new ArrayList<>();
 	private ArrayList<String> serverNameList = new ArrayList<>();
 	private ArrayList<String> ipList = new ArrayList<>();
 	private ArrayList<String> hostList = new ArrayList<>();
-
 	
 	// #########################################################################
 	// ## Initialisieren 													   #
 	// #########################################################################
+	
+	public JSONFileContentInAList() {
+		jfh.init();
+		init();
+	}
 	
 	public void init() {
 		saveServerValuesInAList();
