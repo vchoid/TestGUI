@@ -118,7 +118,7 @@ public class SampleController implements Initializable {
 		}
 		return false;
 	}
-	public void cancelPortEntry() {
+	public void clearPortField() {
 		portNameTField.clear();
 		portAddrTField.clear();
 	}
@@ -130,7 +130,7 @@ public class SampleController implements Initializable {
 			jf.addPort(p);
 			messageLabel.setText(jf.getExcMessage());
 		}
-		cancelPortEntry();
+		clearPortField();
 	}
 
 	@Override
