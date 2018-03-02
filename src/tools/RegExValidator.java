@@ -8,15 +8,18 @@ public class RegExValidator {
 	private Pattern pattern;
 	private Matcher matcher;
 
-	private static final String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-	
-	private static final String ONE_IP_FIELD_PATTERN = "([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
+	/*
+	 * ^ = nicht 0 oder 1
+	 */
+	private static final String IPADDRESS_PATTERN = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}"
+			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
+
+	// ein bis 5 Zahlen
+	private static final String ONLY_NUMBER_PATTERN = "\\d{1,5}";
 
 	/**
-	 * Validiert eine  IP-Adresse mit RegEx.
+	 * Validiert eine IP-Adresse mit RegEx.
+	 * 
 	 * @return true gültige IP, false ungültige IP address
 	 */
 	public boolean validateIP(String valueToCheck) {
@@ -24,15 +27,15 @@ public class RegExValidator {
 		matcher = pattern.matcher(valueToCheck);
 		return matcher.matches();
 	}
-	
+
 	/**
-	 * Validiert eine  IP-Adresse mit RegEx.
+	 * Validiert eine IP-Adresse mit RegEx.
+	 * 
 	 * @return true gültige IP, false ungültige IP address
 	 */
-	public boolean validateOneIPField(String valueToCheck) {
-		pattern = Pattern.compile(ONE_IP_FIELD_PATTERN);
+	public boolean validateOnlyNumField(String valueToCheck) {
+		pattern = Pattern.compile(ONLY_NUMBER_PATTERN);
 		matcher = pattern.matcher(valueToCheck);
 		return matcher.matches();
 	}
-
 }

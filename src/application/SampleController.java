@@ -75,7 +75,6 @@ public class SampleController implements Initializable {
 				|| !sAddr2TField.getText().isEmpty()
 				|| !sAddr3TField.getText().isEmpty()
 				|| !sAddr4TField.getText().isEmpty()) {
-			messageLabel.setText(jf.getExcMessage());
 			ipConcat = sAddr1TField.getText() + "." + sAddr2TField.getText()
 					+ "." + sAddr3TField.getText() + "."
 					+ sAddr4TField.getText();
@@ -83,7 +82,6 @@ public class SampleController implements Initializable {
 				return true;
 			}
 		}
-		messageLabel.setText(jf.getExcMessage());
 		return false;
 	}
 
@@ -93,33 +91,36 @@ public class SampleController implements Initializable {
 			s = new Server(serverNameTField.getText());
 			s.createServerViaIP(ipConcat);
 			jf.addServer(s);
+			messageLabel.setText(jf.getExcMessage());
 		}
-		cancelServerEntry();
+		clearServerField();
 	}
-	public void cancelServerEntry() {
+	public void clearServerField() {
 		serverNameTField.clear();
 		sAddr1TField.clear();
 		sAddr2TField.clear();
 		sAddr3TField.clear();
 		sAddr4TField.clear();
-		messageLabel.setText(jf.getExcMessage());
 	}
 
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	/**
+	 * Überprüft ob gültige Werte in den Feldern gibt.
+	 * @return
+	 */
 	private boolean isPortFieldValid() {
-		if (portNameTField.getText().isEmpty()
-				|| portAddrTField.getText().isEmpty()) {
-			messageLabel.setText(jf.getExcMessage());
-			return false;
+		if (!portNameTField.getText().isEmpty()
+				|| !portAddrTField.getText().isEmpty()) {
+			if(rv.validateOnlyNumField(portAddrTField.getText())) {
+			return true;
+			}
 		}
-		messageLabel.setText(jf.getExcMessage());
-		return true;
+		return false;
 	}
 	public void cancelPortEntry() {
 		portNameTField.clear();
 		portAddrTField.clear();
-		messageLabel.setText(jf.getExcMessage());
 	}
 	public void savePortEntry() {
 		if (isPortFieldValid()) {
@@ -127,6 +128,7 @@ public class SampleController implements Initializable {
 			p = new Port(portNameTField.getText());
 			p.createPort(Integer.parseInt(portAddrTField.getText()));
 			jf.addPort(p);
+			messageLabel.setText(jf.getExcMessage());
 		}
 		cancelPortEntry();
 	}
