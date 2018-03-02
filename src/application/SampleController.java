@@ -13,13 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tools.JSONFileHandler;
 import tools.Port;
+import tools.RegExValidator;
 import tools.Server;
 
 public class SampleController implements Initializable {
 
 	private JSONFileHandler jf = new JSONFileHandler();
+	private RegExValidator rv = new RegExValidator();
 	private Port p;
 	private Server s;
+	private String ipConcat;
 
 	// << Exception Ausgabe >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
@@ -59,31 +62,37 @@ public class SampleController implements Initializable {
 
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+	/**
+	 * Überprüft ob in den Eingabefeld für die IP-Adresse Werte geschrieben
+	 * wurden. Wenn Werte in den Feldern sind füge sie zu einem String zusammen.
+	 * Überprüfe ob der String ein gültige IP-Adresse ist.
+	 * 
+	 * @return true wenn Feld nicht leer und gültige IP-Adresse
+	 */
 	private boolean isSAddrFieldValid() {
-		if (serverNameTField.getText().isEmpty()
-				|| sAddr1TField.getText().isEmpty()
-				|| sAddr2TField.getText().isEmpty()
-				|| sAddr3TField.getText().isEmpty()
-				|| sAddr4TField.getText().isEmpty()) {
+		if (!serverNameTField.getText().isEmpty()
+				|| !sAddr1TField.getText().isEmpty()
+				|| !sAddr2TField.getText().isEmpty()
+				|| !sAddr3TField.getText().isEmpty()
+				|| !sAddr4TField.getText().isEmpty()) {
 			messageLabel.setText(jf.getExcMessage());
-			return false;
+			ipConcat = sAddr1TField.getText() + "." + sAddr2TField.getText()
+					+ "." + sAddr3TField.getText() + "."
+					+ sAddr4TField.getText();
+			if (rv.validateIP(ipConcat)) {
+				return true;
+			}
 		}
-
 		messageLabel.setText(jf.getExcMessage());
-		return true;
+		return false;
 	}
 
 	public void saveServerEntry() {
-
 		if (isSAddrFieldValid()) {
 			jf.init();
-			String ipConcat = sAddr1TField.getText() + "."
-					+ sAddr2TField.getText() + "." + sAddr3TField.getText()
-					+ "." + sAddr4TField.getText();
 			s = new Server(serverNameTField.getText());
 			s.createServerViaIP(ipConcat);
 			jf.addServer(s);
-
 		}
 		cancelServerEntry();
 	}
