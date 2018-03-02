@@ -1,17 +1,5 @@
 package tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -51,111 +39,20 @@ import com.google.gson.JsonObject;
  * @version 1.0.0
  */
 
-public class JSONFileHandler {
+public class JSONFileContentHandler extends JSONFileInitialisator{
 
 	// ## Variablen ############################################################
-
-	// --> Datei-Handling ------------------------------------------------------
-	private Gson gson = new Gson();
-	private final static String FILE = System.getProperty("user.dir")
-			+ "/src/resources/Server_Ports.JSON";
-	private BufferedReader reader;
-	private FileInputStream input;
-	private BufferedWriter writer;
-	private FileOutputStream out;
+	
 	// --> json-Handling -------------------------------------------------------
-	private EmptyPortServerTemplate emptyPSTemplate = new EmptyPortServerTemplate();
 	private JsonObject newPort = new JsonObject();
 	private JsonObject newServer = new JsonObject();
-	private JsonObject jsonObj;
 	private JsonArray portsArray;
 	private JsonArray serverArray;
 	private int positionInArray;
 	private JsonElement searchElement;
 	private Boolean success = false;
 
-	// --> Exception-Handling --------------------------------------------------
-	private Exception e;
-	private String excMessage;
-
-	// #########################################################################
-	// ## Initialisieren #######################################################
-	// #########################################################################
-	public JSONFileHandler() {
-//		init();
-	}
-	/**
-	 * Initialisiert die Datei mit der {@link #parseFileAsJSONObject()}-Methode.
-	 * Bereitet den Inhalt zur Weiterverabeitung mit folgenden Methoden auf.
-	 * <p>
-	 * <b>Methoden:</b>
-	 * <ul>
-	 * <li>Speichert Port und Server in jeweils ein JSONArray:
-	 * <b>{@link #setPortServerValuesInAList()}</b></li>
-	 * </ul>
-	 * </p>
-	 */
-	public void init() {
-		parseFileAsJSONObject();
-		setPortServerValuesInAList();
-	}
-	/**
-	 * Vorlageninhalt für leere JSON-Datei.
-	 */
-	private void addEmptyJsonFileTemplate() {
-		writeInFile(emptyPSTemplate.getPortServerTemplate());
-		setExcMessage(emptyPSTemplate.getMessage());
-	}
-	/**
-	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
-	 */
-	private void parseFileAsJSONObject() {
-		// Datei über einen Stream einlesen
-		try {
-			input = new FileInputStream(getFile());
-			reader = new BufferedReader(new InputStreamReader(input));
-			// Datei als JSON-Objekt einlesen
-			setJsonObj(gson.fromJson(reader, JsonObject.class));
-			reader.close();
-		} catch (IOException e) {
-			addEmptyJsonFileTemplate();
-			init();
-		}
-	}
-
-	/**
-	 * Schreibt Inhalt(Parameter content) in der JSON-Datei und schließt den
-	 * Writer.
-	 * 
-	 * @param content
-	 */
-	private void writeInFile(String content) {
-		try {
-			out = new FileOutputStream(getFile());
-			writer = new BufferedWriter(new OutputStreamWriter(out));
-			writer.write(content);
-			// TODO l�schen!
-			setExcMessage("... gespeichert in Datei.");
-			System.out.println("... gespeichert in Datei.");
-			writer.close();
-			System.out.println(" >> 'writer' geschlossen!");
-		} catch (IOException e) {
-			setE(e);
-		}
-	}
-
-	/**
-	 * Speichert Werte aus den Server- und Port-Arrays aus der JSON-Datei in
-	 * Arrays.
-	 * 
-	 */
-	private void setPortServerValuesInAList() {
-		// Ports-Array aus JSONFile speichern
-		setPortsArray(getJsonObj().getAsJsonArray("ports"));
-		// Server-Array aus JSONFile speichern
-		setServerArray(getJsonObj().getAsJsonArray("server"));
-
-	}
+	
 	// #########################################################################
 	// ## Prüfen auf validen Inhalt ############################################
 	// #########################################################################
@@ -256,7 +153,7 @@ public class JSONFileHandler {
 	private void addNewArrayInJSONFile(JsonArray array, String key) {
 		// Werte in Object anf�gen
 		getJsonObj().add(key, array);
-		// ver�ndertes Objekt als String in Datei schreiben
+		// verändertes Objekt als String in Datei schreiben
 		writeInFile(getJsonObj().toString());
 	}
 	/**
@@ -371,7 +268,6 @@ public class JSONFileHandler {
 				System.out.print("  -> wurde aus Array gel�scht");
 				setSuccess(true);
 			} catch (Exception e) {
-				setE(e);
 			}
 		} else {
 			System.out.print(value);
@@ -521,12 +417,7 @@ public class JSONFileHandler {
 	public void setSearchElement(JsonElement searchElement) {
 		this.searchElement = searchElement;
 	}
-	public JsonObject getJsonObj() {
-		return jsonObj;
-	}
-	public void setJsonObj(JsonObject json) {
-		this.jsonObj = json;
-	}
+	
 	public JsonArray getPortsArray() {
 		return portsArray;
 	}
@@ -545,23 +436,6 @@ public class JSONFileHandler {
 	public void setPositionInArray(int positionInArray) {
 		this.positionInArray = positionInArray;
 	}
-	// --> Datei-Handling ------------------------------------------------------
-	public static String getFile() {
-		return FILE;
-	}
-	// --> Exception Handling --------------------------------------------------
-	public Exception getE() {
-		return e;
-	}
-	public void setE(Exception e) {
-		this.e = e;
-	}
-
-	public String getExcMessage() {
-		return excMessage;
-	}
-	public void setExcMessage(String excMessage) {
-		this.excMessage = excMessage;
-	}
+	
 
 }

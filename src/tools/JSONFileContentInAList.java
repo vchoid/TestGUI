@@ -12,7 +12,7 @@ public class JSONFileContentInAList {
 	// ## Variablen 														   #
 	// #########################################################################
 	
-	private JSONFileHandler jfh = new JSONFileHandler();
+	private JSONFileContentHandler jfh = new JSONFileContentHandler();
 	// --> Listen für View -----------------------------------------------------
 	private ArrayList<String> portList = new ArrayList<>();
 	private ArrayList<String> portNameList = new ArrayList<>();
@@ -25,7 +25,6 @@ public class JSONFileContentInAList {
 	// #########################################################################
 	
 	public JSONFileContentInAList() {
-		jfh.init();
 		init();
 	}
 	

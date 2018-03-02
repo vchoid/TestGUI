@@ -20,24 +20,40 @@ public class JSONFileInitialisator {
 			+ "/src/resources/Server_Ports.JSON";
 	private BufferedReader reader;
 	private FileInputStream input;
-
-	private JsonObject jsonObj;
-
-	private EmptyPortServerTemplate emptyPSTemplate = new EmptyPortServerTemplate();
-
 	private BufferedWriter writer;
 	private FileOutputStream out;
-
+	// --> Content-Handling ----------------------------------------------------
+	private JsonObject jsonObj;
+	private EmptyPortServerTemplate emptyPSTemplate = new EmptyPortServerTemplate();
 	private JsonArray portsArray;
 	private JsonArray serverArray;
 
+	// --> Message-Handling ----------------------------------------------------
 	private String excMessage;
+
+	public JSONFileInitialisator() {
+		init();
+	}
 	
+	// #########################################################################
+	// ## Initialisieren #######################################################
+	// #########################################################################
+	/**
+	 * Initialisiert die Datei mit der {@link #parseFileAsJSONObject()}-Methode.
+	 * Bereitet den Inhalt zur Weiterverabeitung mit folgenden Methoden auf.
+	 * <p>
+	 * <b>Methoden:</b>
+	 * <ul>
+	 * <li>Speichert Port und Server in jeweils ein JSONArray:
+	 * <b>{@link #setPortServerValuesInAList()}</b></li>
+	 * </ul>
+	 * </p>
+	 */
 	public void init() {
 		parseFileAsJSONObject();
 		setPortServerValuesInAList();
 	}
-	
+
 	/**
 	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
 	 */
@@ -49,12 +65,12 @@ public class JSONFileInitialisator {
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
 			reader.close();
+			System.out.println("reader ...geschlossen!");
 		} catch (IOException e) {
 			addEmptyJsonFileTemplate();
 			init();
 		}
 	}
-
 	/**
 	 * Vorlageninhalt für leere JSON-Datei.
 	 */
@@ -68,21 +84,20 @@ public class JSONFileInitialisator {
 	 * 
 	 * @param content
 	 */
-	private void writeInFile(String content) {
+	public void writeInFile(String content) {
 		try {
 			out = new FileOutputStream(getFile());
 			writer = new BufferedWriter(new OutputStreamWriter(out));
 			writer.write(content);
 			// TODO l�schen!
-			setExcMessage("... gespeichert in Datei.");
-			System.out.println("... gespeichert in Datei.");
+			setExcMessage(" ...gespeichert");
+			System.out.println("...gespeichert");
 			writer.close();
-			System.out.println(" >> 'writer' geschlossen!");
+			System.out.println("writer ...geschlossen!");
 		} catch (IOException e) {
 			setExcMessage(e.toString());
 		}
 	}
-
 	/**
 	 * Speichert Werte aus den Server- und Port-Arrays aus der JSON-Datei in
 	 * Arrays.
@@ -93,9 +108,7 @@ public class JSONFileInitialisator {
 		setPortsArray(getJsonObj().getAsJsonArray("ports"));
 		// Server-Array aus JSONFile speichern
 		setServerArray(getJsonObj().getAsJsonArray("server"));
-
 	}
-
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################

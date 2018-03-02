@@ -12,14 +12,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tools.JSONFileContentInAList;
-import tools.JSONFileHandler;
+import tools.JSONFileInitialisator;
+import tools.JSONFileContentHandler;
 import tools.Port;
 import tools.RegExValidator;
 import tools.Server;
 
 public class SampleController implements Initializable {
 
-	private JSONFileHandler jf = new JSONFileHandler();
+	private JSONFileContentHandler jf = new JSONFileContentHandler();
 	private JSONFileContentInAList jfList = new JSONFileContentInAList();
 	private RegExValidator rv = new RegExValidator();
 	private Port p;
@@ -110,7 +111,6 @@ public class SampleController implements Initializable {
 			ports.add(s);
 		}
 		portChoiceBox.setItems(ports);
-		jf.init();
 	}
 
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

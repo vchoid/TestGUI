@@ -1,1 +1,1 @@
-{"server":[],"ports":[{"name":"test","port":1234},{"name":"Port2","port":2222}]}
+{"server":[{"name":"Tesrt","host":"222.222.222.255","ip":"222.222.222.255"},{"name":"TestServer","host":"192.168.1.1","ip":"192.168.1.1"}],"ports":[{"name":"test","port":1234},{"name":"test2","port":222}]}

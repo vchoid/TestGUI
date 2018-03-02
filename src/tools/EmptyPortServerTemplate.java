@@ -7,6 +7,7 @@ public class EmptyPortServerTemplate {
 	private String message;
 	
 	public String getPortServerTemplate() {
+		System.out.print("Server_Ports.json ");
 		setMessage("Server_Ports.json angelegt");
 		return portServerTemplate;
 	}
