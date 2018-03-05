@@ -46,17 +46,17 @@ public class JSONFileInitialisator {
 	 * </p>
 	 */
 	public void init() {
-		readFromFileParseFileAsJSONObject();
+		readFromFileParseFileAsJSONObject(getFile());
 		setPortServerValuesInAList();
 	}
 
 	/**
 	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
 	 */
-	public void readFromFileParseFileAsJSONObject() {
+	public void readFromFileParseFileAsJSONObject(String file) {
 		// Datei über einen Stream einlesen
 		try {
-			input = new FileInputStream(getFile());
+			input = new FileInputStream(file);
 			reader = new BufferedReader(new InputStreamReader(input));
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
@@ -75,7 +75,7 @@ public class JSONFileInitialisator {
 	 * Vorlageninhalt für leere JSON-Datei.
 	 */
 	private void addEmptyJsonFileTemplate() {
-		writeInFile(emptyPSTemplate.getPortServerTemplate());
+		writeInFile(getFile(), emptyPSTemplate.getPortServerTemplate());
 		setExcMessage(emptyPSTemplate.getMessage());
 	}
 	/**
@@ -84,9 +84,9 @@ public class JSONFileInitialisator {
 	 * 
 	 * @param content
 	 */
-	public void writeInFile(String content) {
+	public void writeInFile(String file, String content) {
 		try {
-			out = new FileOutputStream(getFile());
+			out = new FileOutputStream(file);
 			writer = new BufferedWriter(new OutputStreamWriter(out));
 			writer.write(content);
 			// TODO l�schen!

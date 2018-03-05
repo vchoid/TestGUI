@@ -157,7 +157,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 		// Werte in Object anf�gen
 		getJsonObj().add(key, array);
 		// verändertes Objekt als String in Datei schreiben
-		writeInFile(getJsonObj().toString());
+		writeInFile(getFile(), getJsonObj().toString());
 	}
 	/**
 	 * Fügt mit der {@link #addNewObjectInArray(JsonArray, JsonObject)}-Methode

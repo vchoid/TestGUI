@@ -136,6 +136,7 @@ public class SampleController implements Initializable {
 			p.createPort(Integer.parseInt(portAddrTField.getText()));
 			jfList.init();
 			jfList.addPort(p);
+			
 			messageLabel.setText(jfList.getExcMessage());
 		}
 		clearPortField();
