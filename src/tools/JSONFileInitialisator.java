@@ -75,24 +75,23 @@ public class JSONFileInitialisator {
 	 * Vorlageninhalt für leere JSON-Datei.
 	 */
 	private void addEmptyJsonFileTemplate() {
-		writeInFile(getFile(), emptyPSTemplate.getPortServerTemplate());
+		writeInFile(emptyPSTemplate.getPortServerTemplate());
 		setExcMessage(emptyPSTemplate.getMessage());
 	}
 	/**
 	 * Schreibt Inhalt(Parameter content) in der JSON-Datei und schließt den
 	 * Writer.
-	 * 
-	 * @param content
 	 */
-	public void writeInFile(String file, String content) {
+	public void writeInFile(String content) {
 		try {
-			out = new FileOutputStream(file);
+			out = new FileOutputStream(getFile());
 			writer = new BufferedWriter(new OutputStreamWriter(out));
 			writer.write(content);
 			// TODO l�schen!
 			setExcMessage(" ...gespeichert");
 			System.out.println("...gespeichert");
 			writer.close();
+			out.close();
 			System.out.println("writer ...geschlossen!");
 		} catch (IOException e) {
 			setExcMessage(e.toString());

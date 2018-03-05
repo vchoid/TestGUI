@@ -85,7 +85,6 @@ public class SampleController implements Initializable {
 		if (isSAddrFieldValid()) {
 			s = new Server(serverNameTField.getText());
 			s.createServerViaIP(ipConcat);
-			jfList.init();
 			jfList.addServer(s);
 			messageLabel.setText(jfList.getExcMessage());
 		}
@@ -134,7 +133,6 @@ public class SampleController implements Initializable {
 		if (isPortFieldValid()) {
 			p = new Port(portNameTField.getText());
 			p.createPort(Integer.parseInt(portAddrTField.getText()));
-			jfList.init();
 			jfList.addPort(p);
 			
 			messageLabel.setText(jfList.getExcMessage());

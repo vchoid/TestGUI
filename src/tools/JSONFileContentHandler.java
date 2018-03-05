@@ -58,10 +58,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	// #########################################################################
 	
 	public JSONFileContentHandler() {
-<<<<<<< HEAD
-=======
 		init();
->>>>>>> dev
 	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
@@ -147,7 +144,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * @param newObject
 	 */
 	private void addNewObjectInArray(JsonArray array, JsonObject newObject) {
-		// Objekt in Array anf�gen
+		// Objekt in Array anfügen
 		array.add(newObject);
 	}
 	/**
@@ -158,10 +155,10 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * @param key
 	 */
 	private void addNewArrayInJSONFile(JsonArray array, String key) {
-		// Werte in Object anf�gen
+		// Werte in Object anfügen
 		getJsonObj().add(key, array);
 		// verändertes Objekt als String in Datei schreiben
-		writeInFile(getFile(), getJsonObj().toString());
+		writeInFile(getJsonObj().toString());
 	}
 	/**
 	 * Fügt mit der {@link #addNewObjectInArray(JsonArray, JsonObject)}-Methode
@@ -213,7 +210,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	public void addPort(Port port) {
 		// neues Objekt mit zwei Key-Value-Paare anlegen
 		addPortValues(port);
-		// pr�fen ob bereits vorhanden
+		// prüfen ob bereits vorhanden
 		if (!isPortAvailable(port)) {
 			// neuen validen Wert schreiben
 			addObjectInArrayAndWriteInFile(getPortsArray(), newPort, "ports");
