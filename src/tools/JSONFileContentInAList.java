@@ -1,7 +1,5 @@
 package tools;
 
-import java.util.ArrayList;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
