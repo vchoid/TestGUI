@@ -20,7 +20,6 @@ import tools.Server;
 
 public class SampleController implements Initializable {
 
-	private JSONFileContentHandler jf = new JSONFileContentHandler();
 	private JSONFileContentInAList jfList = new JSONFileContentInAList();
 	private RegExValidator rv = new RegExValidator();
 	private Port p;
@@ -88,11 +87,11 @@ public class SampleController implements Initializable {
 
 	public void saveServerEntry() {
 		if (isSAddrFieldValid()) {
-			jf.init();
 			s = new Server(serverNameTField.getText());
 			s.createServerViaIP(ipConcat);
-			jf.addServer(s);
-			messageLabel.setText(jf.getExcMessage());
+			jfList.init();
+			jfList.addServer(s);
+			messageLabel.setText(jfList.getExcMessage());
 		}
 		clearServerField();
 	}
@@ -137,11 +136,11 @@ public class SampleController implements Initializable {
 	
 	public void savePortEntry() {
 		if (isPortFieldValid()) {
-			jf.init();
 			p = new Port(portNameTField.getText());
 			p.createPort(Integer.parseInt(portAddrTField.getText()));
-			jf.addPort(p);
-			messageLabel.setText(jf.getExcMessage());
+			jfList.init();
+			jfList.addPort(p);
+			messageLabel.setText(jfList.getExcMessage());
 		}
 		clearPortField();
 	}

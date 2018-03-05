@@ -6,13 +6,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class JSONFileContentInAList extends JSONFileInitialisator{
+public class JSONFileContentInAList extends JSONFileContentHandler{
 
 	// #########################################################################
 	// ## Variablen 														   #
 	// #########################################################################
 	
-	private JSONFileContentHandler jfh = new JSONFileContentHandler();
 	// --> Listen für View -----------------------------------------------------
 	private ArrayList<String> portList = new ArrayList<>();
 	private ArrayList<String> portNameList = new ArrayList<>();
@@ -25,7 +24,6 @@ public class JSONFileContentInAList extends JSONFileInitialisator{
 	// #########################################################################
 	
 	public JSONFileContentInAList() {
-		init();
 //		saveLists();
 	}
 	
@@ -68,11 +66,11 @@ public class JSONFileContentInAList extends JSONFileInitialisator{
 	 */
 	public void saveServerValuesInAList() {
 		// Servername in neue List speichern
-		saveValuesInArray(jfh.getServerArray(), "name", serverNameList);
+		saveValuesInArray(getServerArray(), "name", serverNameList);
 		// IP-Adressen aus Server-Array in neue List speichern
-		saveValuesInArray(jfh.getServerArray(), "ip", ipList);
+		saveValuesInArray(getServerArray(), "ip", ipList);
 		// Host-Adressen aus Server-Array in neue List speichern
-		saveValuesInArray(jfh.getServerArray(), "host", hostList);
+		saveValuesInArray(getServerArray(), "host", hostList);
 	}
 	/**
 	 * Speichert folgende Werte aus den Port-Arrays in neue Listen.
@@ -87,9 +85,9 @@ public class JSONFileContentInAList extends JSONFileInitialisator{
 	 */
 	public void savePortValuesInAList() {
 		// die Port-Werte in neue Liste speichern
-		saveValuesInArray(jfh.getPortsArray(), "port", portList);
+		saveValuesInArray(getPortsArray(), "port", portList);
 		// die Port-Werte in neue Liste speichern
-		saveValuesInArray(jfh.getPortsArray(), "name", portNameList);
+		saveValuesInArray(getPortsArray(), "name", portNameList);
 	}
 
 	
