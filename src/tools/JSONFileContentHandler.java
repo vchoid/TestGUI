@@ -58,6 +58,10 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	// #########################################################################
 	
 	public JSONFileContentHandler() {
+<<<<<<< HEAD
+=======
+		init();
+>>>>>>> dev
 	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
