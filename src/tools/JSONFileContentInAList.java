@@ -6,6 +6,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class JSONFileContentInAList extends JSONFileContentHandler{
 
 	// #########################################################################
@@ -13,11 +16,11 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	// #########################################################################
 	
 	// --> Listen für View -----------------------------------------------------
-	private ArrayList<String> portList = new ArrayList<>();
-	private ArrayList<String> portNameList = new ArrayList<>();
-	private ArrayList<String> serverNameList = new ArrayList<>();
-	private ArrayList<String> ipList = new ArrayList<>();
-	private ArrayList<String> hostList = new ArrayList<>();
+	private ObservableList<String> portList = FXCollections.observableArrayList();
+	private ObservableList<String> portNameList = FXCollections.observableArrayList();
+	private ObservableList<String> serverNameList =FXCollections.observableArrayList();
+	private ObservableList<String> ipList = FXCollections.observableArrayList();
+	private ObservableList<String> hostList = FXCollections.observableArrayList();
 	
 	// #########################################################################
 	// ## Initialisieren 													   #
@@ -44,7 +47,7 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	 * @param list
 	 */
 	private void saveValuesInArray(JsonArray array, String key,
-			ArrayList<String> list) {
+			ObservableList<String> list) {
 		for (int i = 0; i < array.size(); i++) {
 			JsonObject temp = array.get(i).getAsJsonObject();
 			JsonElement tempE = temp.get(key);
@@ -96,22 +99,22 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	// #########################################################################
 	// --> Daten für die View --------------------------------------------------
 	
-	public ArrayList<String> getHostList() {
+	public ObservableList<String> getHostList() {
 		return hostList;
 	}
-	public void setHostList(ArrayList<String> hostList) {
+	public void setHostList(ObservableList<String> hostList) {
 		this.hostList = hostList;
 	}
-	public ArrayList<String> getIpList() {
+	public ObservableList<String> getIpList() {
 		return ipList;
 	}
-	public ArrayList<String> getServerNameList() {
+	public ObservableList<String> getServerNameList() {
 		return serverNameList;
 	}
-	public ArrayList<String> getPortList() {
+	public ObservableList<String> getPortList() {
 		return portList;
 	}
-	public ArrayList<String> getPortNameList() {
+	public ObservableList<String> getPortNameList() {
 		return portNameList;
 	}
 	// --> Array Iteration -----------------------------------------------------
