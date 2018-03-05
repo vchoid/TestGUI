@@ -3,8 +3,6 @@ package application;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,8 +10,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tools.JSONFileContentInAList;
-import tools.JSONFileInitialisator;
-import tools.JSONFileContentHandler;
 import tools.Port;
 import tools.RegExValidator;
 import tools.Server;
@@ -104,12 +100,12 @@ public class SampleController implements Initializable {
 	}
 
 	public void loadPortList() {
-		jfList.saveLists();
-		ObservableList<String> ports = FXCollections.observableArrayList();
-		for (String s : jfList.getPortNameList()) {
-			ports.add(s);
-		}
-		portChoiceBox.setItems(ports);
+//		jfList.saveLists();
+//		ObservableList<String> ports = FXCollections.observableArrayList();
+//		for (String s : jfList.getPortNameList()) {
+//			ports.add(s);
+//		}
+//		portChoiceBox.setItems(ports);
 	}
 
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

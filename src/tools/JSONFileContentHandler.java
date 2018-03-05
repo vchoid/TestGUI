@@ -58,7 +58,6 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	// #########################################################################
 	
 	public JSONFileContentHandler() {
-//		init();
 	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
@@ -178,6 +177,8 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 		// TODO l�schen!
 		System.out.print(" -> hinzugefügt zum Array");
 		addNewArrayInJSONFile(array, key);
+		//TODO
+		// closeMethode
 	}
 
 	// --> Port ------------------------------------------------------------

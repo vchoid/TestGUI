@@ -46,20 +46,21 @@ public class JSONFileInitialisator {
 	 * </p>
 	 */
 	public void init() {
-		parseFileAsJSONObject();
+		readFromFileParseFileAsJSONObject();
 		setPortServerValuesInAList();
 	}
 
 	/**
 	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
 	 */
-	private void parseFileAsJSONObject() {
+	public void readFromFileParseFileAsJSONObject() {
 		// Datei über einen Stream einlesen
 		try {
 			input = new FileInputStream(getFile());
 			reader = new BufferedReader(new InputStreamReader(input));
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
+			System.out.println(getJsonObj());
 			reader.close();
 			System.out.println("reader ...geschlossen!");
 		} catch (IOException e) {
@@ -67,6 +68,9 @@ public class JSONFileInitialisator {
 			init();
 		}
 	}
+	
+	
+	
 	/**
 	 * Vorlageninhalt für leere JSON-Datei.
 	 */
@@ -94,6 +98,7 @@ public class JSONFileInitialisator {
 			setExcMessage(e.toString());
 		}
 	}
+	
 	/**
 	 * Speichert Werte aus den Server- und Port-Arrays aus der JSON-Datei in
 	 * Arrays.
@@ -109,6 +114,19 @@ public class JSONFileInitialisator {
 	// ## Getter und Setter ####################################################
 	// #########################################################################
 
+	// --> File-Handling -------------------------------------------------------
+	public FileInputStream getInput() {
+		return input;
+	}
+	public BufferedReader getReader() {
+		return reader;
+	}
+	public FileOutputStream getOut() {
+		return out;
+	}
+	public BufferedWriter getWriter() {
+		return writer;
+	}
 	// --> JSON-Handling -------------------------------------------------------
 	public JsonObject getJsonObj() {
 		return jsonObj;
