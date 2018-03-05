@@ -46,19 +46,13 @@ public class Server {
 	 * @return
 	 */
 	public Server createServerViaIP(String ip) {
-		System.out.println(validate(ip));
-//		if (!validate(ip)) {
-//			System.out.println("Ungültige IP-Adresse");
-//			setExcMessage("Ungültige IP-Adresse");
-//		} else {
-			try {
-				inet = InetAddress.getByName(ip);
-				this.host = inet.getHostName();
-				this.ip = ip;
-			} catch (UnknownHostException e) {
-				// wird mit der validate()-Methode überprüft
-			}
-//		}
+		try {
+			inet = InetAddress.getByName(ip);
+			this.host = inet.getHostName();
+			this.ip = ip;
+		} catch (UnknownHostException e) {
+			// wird mit der validate()-Methode überprüft
+		}
 		return this;
 	}
 	/**
