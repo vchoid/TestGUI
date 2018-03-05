@@ -105,7 +105,7 @@ public class SampleController implements Initializable {
 	}
 
 	public void loadPortList() {
-		jfList.savePortValuesInAList();;
+		jfList.saveLists();
 		ObservableList<String> ports = FXCollections.observableArrayList();
 		for (String s : jfList.getPortNameList()) {
 			ports.add(s);
@@ -129,10 +129,12 @@ public class SampleController implements Initializable {
 		}
 		return false;
 	}
+	
 	public void clearPortField() {
 		portNameTField.clear();
 		portAddrTField.clear();
 	}
+	
 	public void savePortEntry() {
 		if (isPortFieldValid()) {
 			jf.init();

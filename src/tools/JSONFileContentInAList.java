@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class JSONFileContentInAList {
+public class JSONFileContentInAList extends JSONFileInitialisator{
 
 	// #########################################################################
 	// ## Variablen 														   #
@@ -26,9 +26,10 @@ public class JSONFileContentInAList {
 	
 	public JSONFileContentInAList() {
 		init();
+//		saveLists();
 	}
 	
-	public void init() {
+	public void saveLists() {
 		saveServerValuesInAList();
 		savePortValuesInAList();
 	}
