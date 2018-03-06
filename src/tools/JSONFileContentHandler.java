@@ -39,10 +39,10 @@ import com.google.gson.JsonObject;
  * @version 1.0.0
  */
 
-public class JSONFileContentHandler extends JSONFileInitialisator{
+public class JSONFileContentHandler extends JSONFileInitialisator {
 
 	// ## Variablen ############################################################
-	
+
 	// --> json-Handling -------------------------------------------------------
 	private JsonObject newPort = new JsonObject();
 	private JsonObject newServer = new JsonObject();
@@ -52,13 +52,12 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	private JsonElement searchElement;
 	private Boolean success = false;
 
-	
 	// #########################################################################
 	// ## Prüfen auf validen Inhalt ############################################
 	// #########################################################################
-	
+
 	public JSONFileContentHandler() {
-		init();
+//		init();
 	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
@@ -137,7 +136,17 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	// #########################################################################
 	// ## search-Methode #######################################################
 	// #########################################################################
-	public String searchValueByName(JsonArray array, String searchVal, String keyName) {
+	/**
+	 * Gibt anhand eines Keys(searchVal) den Wert aus dem jeweiligen Array
+	 * zurück.
+	 * 
+	 * @param array
+	 * @param searchVal
+	 * @param keyName
+	 * @return
+	 */
+	public String searchValueByName(JsonArray array, String searchVal,
+			String keyName) {
 		for (int i = 0; i < array.size(); i++) {
 			JsonObject temp = array.get(i).getAsJsonObject();
 			JsonElement keyTemp = temp.get("name");
@@ -148,8 +157,6 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 		}
 		return "";
 	}
-	
-	
 	// #########################################################################
 	// ## add-Methode ##########################################################
 	// #########################################################################
@@ -194,7 +201,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 		// TODO l�schen!
 		System.out.print(" -> hinzugefügt zum Array");
 		addNewArrayInJSONFile(array, key);
-		//TODO
+		// TODO
 		// closeMethode
 	}
 
@@ -364,15 +371,8 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 			JsonObject temp = (JsonObject) jArray.get(getPositionInArray());
 			// überprüfen ob der neue Wert bereits existiert
 			if (!isValueInArray(jArray, key, newVal)) {
-				// �berpr�fen ob Ports vom Typ Integer ver�ndert werden sollen
-				if (jArray == getPortsArray() && key == "port") {
-					// wenn ja den String in Integer parsen
-					temp.addProperty(key, Integer.parseInt(newVal));
-					addNewArrayInJSONFile(jArray, arrayInFile);
-				} else {
-					temp.addProperty(key, newVal);
-					addNewArrayInJSONFile(jArray, arrayInFile);
-				}
+				temp.addProperty(key, newVal);
+				addNewArrayInJSONFile(jArray, arrayInFile);
 			} else {
 				// TODO l�schen!
 				System.out.println("  -> keine doppelten Werte erlaubt");
@@ -384,7 +384,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 			setExcMessage("nicht gefunden");
 		}
 	}
-	
+
 	/**
 	 * Allgemeine Methode zum Bearbeiten von Werten.
 	 * 
@@ -394,10 +394,11 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * @param oldVal
 	 * @param newVal
 	 */
-	public void editValueFrom(JsonArray array, String arrayName, String key, String oldVal, String newVal) {
+	public void editValueFrom(JsonArray array, String arrayName, String key,
+			String oldVal, String newVal) {
 		editValuesFromArray(array, arrayName, key, oldVal, newVal);
 	}
-	
+
 	/**
 	 * 
 	 * Verändert den Port aus dem Port-Array mit der
@@ -406,9 +407,8 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * @param oldVal
 	 * @param newVal
 	 */
-	public void editPort(Integer oldVal, Integer newVal) {
-		editValuesFromArray(getPortsArray(), "ports", "port", "" + oldVal,
-				"" + newVal);
+	public void editPort(String oldVal, String newVal) {
+		editValuesFromArray(getPortsArray(), "ports", "port", oldVal, newVal);
 	}
 
 	/**
@@ -421,11 +421,11 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	public void editPortName(String oldVal, String newVal) {
 		editValuesFromArray(getPortsArray(), "ports", "name", oldVal, newVal);
 	}
-	
-	public void editPortValue(String key,String oldVal, String newVal) {
+
+	public void editPortValue(String key, String oldVal, String newVal) {
 		editValuesFromArray(getPortsArray(), "ports", key, oldVal, newVal);
 	}
-	
+
 	/**
 	 * Verändert einzelne Wertepaare aus dem Server-Array mit der
 	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode..
@@ -437,9 +437,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	public void editServerValue(String key, String oldVal, String newVal) {
 		editValuesFromArray(getServerArray(), "server", key, oldVal, newVal);
 	}
-	
 
-	
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################
@@ -457,7 +455,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	public void setSearchElement(JsonElement searchElement) {
 		this.searchElement = searchElement;
 	}
-	
+
 	public JsonArray getPortsArray() {
 		return portsArray;
 	}
@@ -476,6 +474,5 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	public void setPositionInArray(int positionInArray) {
 		this.positionInArray = positionInArray;
 	}
-	
 
 }

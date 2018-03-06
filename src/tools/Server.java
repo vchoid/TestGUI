@@ -2,8 +2,6 @@ package tools;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Ein Server-Objekt anlegen. Entweder mit der IP-Adresse oder der Host-Adresse.
@@ -20,22 +18,9 @@ public class Server {
 	private InetAddress inet;
 	private String excMessage;
 
-	private static final String IPADDRESS_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-
-	private Pattern pattern;
-	private Matcher matcher;
-
 	public Server(String name) {
 		super();
 		this.name = name;
-	}
-	public boolean validate(final String ip) {
-		pattern = Pattern.compile(IPADDRESS_PATTERN);
-		matcher = pattern.matcher(ip);
-		return matcher.matches();
 	}
 
 	/**

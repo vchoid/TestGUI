@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,10 +26,6 @@ public class SampleController implements Initializable {
 	private Label messageLabel;
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
-	private Button saveServerBtn;
-	@FXML
-	private Button cancelServerBtn;
-	@FXML
 	private TextField serverNameTField;
 	@FXML
 	private TextField sAddr1TField;
@@ -42,21 +37,18 @@ public class SampleController implements Initializable {
 	private TextField sAddr4TField;
 	@FXML
 	private ChoiceBox<String> serverChoiceBox;
-	@FXML
-	private Button delServerButton;
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	@FXML
-	private Button savePortBtn;
-	@FXML
-	private Button cancelPortBtn;
 	@FXML
 	private TextField portNameTField;
 	@FXML
 	private TextField portAddrTField;
 	@FXML
 	private ChoiceBox<String> portChoiceBox;
-	@FXML
-	private Button delPortButton;
+	private boolean isEditActiv;
+	private boolean isChoiceBoxActiv;
+	
+	private String portName;
+	private String portAddr;
 
 	// #########################################################################
 	// ## Port #################################################################
@@ -134,40 +126,59 @@ public class SampleController implements Initializable {
 		}
 		return false;
 	}
-	
+
 	public void clearPortField() {
 		portNameTField.clear();
 		portAddrTField.clear();
 	}
-	
+
 	public void updatePortList() {
 		jfList.savePortValuesInAList();;
 		portChoiceBox.setItems(jfList.getPortNameList());
 	}
-	
+
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void delportEntry() {
 		jfList.deletePort(portChoiceBox.getValue());
+		setEditActiv(false);
+		clearPortField();
 		updatePortList();
 	}
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	public void editPortEntry() {
-		String name = portChoiceBox.getValue();
-		portNameTField.setText(name);
-		String port = jfList.searchValueByName(jfList.getPortsArray(), name, "port");
-		portAddrTField.setText(port);
+	public void getPortChoiceBoxValues() {
+		portName = portChoiceBox.getValue();
+		portNameTField.setText(portName);
+		portAddr = jfList.searchValueByName(jfList.getPortsArray(), portName,
+				"port");
+		portAddr = portAddr.replace("\"", "");
+		portAddrTField.setText(portAddr);
+		setEditActiv(true);
 	}
+	public void editPortEntry() {
+		jfList.editPort(portAddr ,portAddrTField.getText());
+		jfList.editPortName(portName, portNameTField.getText());
+	}
+	public void portChoiceBoxClicker() {
+		setChoiceBoxActiv(true);
+	}
+	
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void savePortEntry() {
 		if (isPortFieldValid()) {
 			p = new Port(portNameTField.getText());
-			p.createPort(Integer.parseInt(portAddrTField.getText()));
+			p.createPort(portAddrTField.getText());
 			jfList.init();
-			jfList.addPort(p);
+			if(isEditActiv() && isChoiceBoxActiv()) {
+				editPortEntry();
+				setEditActiv(false);
+				setChoiceBoxActiv(false);
+			} else {
+				jfList.addPort(p);
+				System.out.println(jfList.getPortsArray());
+				messageLabel.setText(jfList.getExcMessage());
+			}
 			updatePortList();
-			System.out.println(jfList.getPortsArray());
-			messageLabel.setText(jfList.getExcMessage());
-		}
+		} 
 		clearPortField();
 	}
 
@@ -178,4 +189,22 @@ public class SampleController implements Initializable {
 		updateServerList();
 	}
 
+	// #########################################################################
+	// ## Getter und Setter ####################################################
+	// #########################################################################
+	
+	public boolean isEditActiv() {
+		return isEditActiv;
+	}
+	public void setEditActiv(boolean editButtonWasPressed) {
+		this.isEditActiv = editButtonWasPressed;
+	}
+	
+	public boolean isChoiceBoxActiv() {
+		return isChoiceBoxActiv;
+	}
+	
+	public void setChoiceBoxActiv(boolean isChoiceBoxActiv) {
+		this.isChoiceBoxActiv = isChoiceBoxActiv;
+	}
 }

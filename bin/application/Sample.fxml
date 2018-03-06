@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="198.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
@@ -20,16 +21,26 @@
                   <TextField fx:id="sAddr4TField" layoutX="155.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="45.0" />
                   <Button fx:id="saveServerBtn" layoutX="111.0" layoutY="86.0" mnemonicParsing="false" onAction="#saveServerEntry" text="Speichern" AnchorPane.leftAnchor="111.0" AnchorPane.topAnchor="80.0" />
                   <Button fx:id="cancelServerBtn" layoutX="20.0" layoutY="86.0" mnemonicParsing="false" onAction="#clearServerField" text="Abbrechen" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
-                  <Label alignment="CENTER" layoutX="46.0" layoutY="52.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#00000080" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="52.0" />
-                  <Label alignment="CENTER" layoutX="91.0" layoutY="52.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#00000081" AnchorPane.leftAnchor="91.0" AnchorPane.topAnchor="52.0" />
-                  <Label alignment="CENTER" layoutX="136.0" layoutY="52.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000007e" AnchorPane.leftAnchor="136.0" AnchorPane.topAnchor="52.0" />
+                  <Label alignment="CENTER" layoutX="45.0" layoutY="50.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <Label alignment="CENTER" layoutX="90.0" layoutY="50.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
                   <AnchorPane layoutX="11.0" layoutY="120.0" prefHeight="61.0" prefWidth="170.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0">
                      <children>
                         <ChoiceBox fx:id="serverChoiceBox" layoutX="15.0" layoutY="21.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="editServerButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#editServerEntry" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
+                        <Button fx:id="editServerButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
                         <Button fx:id="delServerButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" onAction="#delServerEntry" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
                      </children>
                   </AnchorPane>
+                  <Label alignment="CENTER" layoutX="135.0" layoutY="50.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="193.0" layoutY="20.0" prefHeight="200.0" prefWidth="190.0" AnchorPane.leftAnchor="193.0" AnchorPane.topAnchor="0.0">
@@ -40,9 +51,9 @@
                   <Button fx:id="cancelPortBtn" layoutX="15.0" layoutY="84.0" mnemonicParsing="false" onAction="#clearPortField" text="Abbrechen" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
                   <AnchorPane layoutX="11.0" layoutY="140.0" prefHeight="61.0" prefWidth="170.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0">
                      <children>
-                        <ChoiceBox fx:id="portChoiceBox" layoutX="15.0" layoutY="21.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ChoiceBox fx:id="portChoiceBox" layoutX="15.0" layoutY="21.0" onMouseClicked="#portChoiceBoxClicker" onMouseReleased="#getPortChoiceBoxValues" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <Button fx:id="delPortButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" onAction="#delportEntry" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
-                        <Button fx:id="editPortButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#editPortEntry" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
+                        <Button fx:id="editPortButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#getPortChoiceBoxValues" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
                      </children>
                   </AnchorPane>
                </children>
@@ -53,7 +64,10 @@
    <bottom>
       <AnchorPane prefHeight="17.0" prefWidth="386.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="messageLabel" alignment="CENTER" layoutX="179.0" layoutY="59.0" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Label fx:id="messageLabel" alignment="CENTER" layoutY="1.0" text="..." textFill="#00000080" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </bottom>
