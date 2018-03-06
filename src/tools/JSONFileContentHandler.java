@@ -58,7 +58,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	// #########################################################################
 	
 	public JSONFileContentHandler() {
-//		init();
+		init();
 	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
@@ -68,7 +68,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * speichere den Eintrag selbst mit der
 	 * {@link #setSearchElement(JsonElement)}-Methode und die Position mit der
 	 * {@link #setPositionInArray(int)}-Methode, wo sich der Eintrag im Array
-	 * befindet. Wenn ja dann, gib true zurück. Ansonsten false.
+	 * befindet und dann gib true zurück, ansonsten false.
 	 * 
 	 * 
 	 * @param value
@@ -134,6 +134,22 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 		return false;
 	}
 
+	// #########################################################################
+	// ## search-Methode #######################################################
+	// #########################################################################
+	public String searchValueByName(JsonArray array, String searchVal, String keyName) {
+		for (int i = 0; i < array.size(); i++) {
+			JsonObject temp = array.get(i).getAsJsonObject();
+			JsonElement keyTemp = temp.get("name");
+			if (keyTemp.getAsString().equalsIgnoreCase(searchVal)) {
+				JsonObject tempObj = (JsonObject) array.get(i);
+				return tempObj.get(keyName).toString();
+			}
+		}
+		return "";
+	}
+	
+	
 	// #########################################################################
 	// ## add-Methode ##########################################################
 	// #########################################################################
@@ -342,9 +358,6 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 */
 	private void editValuesFromArray(JsonArray jArray, String arrayInFile,
 			String key, String oldVal, String newVal) {
-
-		System.out.println();
-
 		System.out.println("\n////////////// BEARBEITEN //////////////");
 		// überprüfen ob der alter Wert überhaupt existiert
 		if (isValueInArray(jArray, key, oldVal)) {
@@ -371,6 +384,20 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 			setExcMessage("nicht gefunden");
 		}
 	}
+	
+	/**
+	 * Allgemeine Methode zum Bearbeiten von Werten.
+	 * 
+	 * @param array
+	 * @param arrayName
+	 * @param key
+	 * @param oldVal
+	 * @param newVal
+	 */
+	public void editValueFrom(JsonArray array, String arrayName, String key, String oldVal, String newVal) {
+		editValuesFromArray(array, arrayName, key, oldVal, newVal);
+	}
+	
 	/**
 	 * 
 	 * Verändert den Port aus dem Port-Array mit der
@@ -394,6 +421,11 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	public void editPortName(String oldVal, String newVal) {
 		editValuesFromArray(getPortsArray(), "ports", "name", oldVal, newVal);
 	}
+	
+	public void editPortValue(String key,String oldVal, String newVal) {
+		editValuesFromArray(getPortsArray(), "ports", key, oldVal, newVal);
+	}
+	
 	/**
 	 * Verändert einzelne Wertepaare aus dem Server-Array mit der
 	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode..
@@ -402,10 +434,12 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * @param oldVal
 	 * @param newVal
 	 */
-	public void editServer(String key, String oldVal, String newVal) {
+	public void editServerValue(String key, String oldVal, String newVal) {
 		editValuesFromArray(getServerArray(), "server", key, oldVal, newVal);
 	}
+	
 
+	
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################

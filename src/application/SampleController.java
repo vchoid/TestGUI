@@ -100,6 +100,9 @@ public class SampleController implements Initializable {
 		updateServerList();
 	}
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public void editServerEntry() {
+		serverNameTField.setText(serverChoiceBox.getValue());
+	}
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void saveServerEntry() {
 		if (isSAddrFieldValid()) {
@@ -148,6 +151,12 @@ public class SampleController implements Initializable {
 		updatePortList();
 	}
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public void editPortEntry() {
+		String name = portChoiceBox.getValue();
+		portNameTField.setText(name);
+		String port = jfList.searchValueByName(jfList.getPortsArray(), name, "port");
+		portAddrTField.setText(port);
+	}
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void savePortEntry() {
 		if (isPortFieldValid()) {
