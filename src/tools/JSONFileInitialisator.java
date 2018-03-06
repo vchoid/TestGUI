@@ -60,7 +60,6 @@ public class JSONFileInitialisator {
 			reader = new BufferedReader(new InputStreamReader(input));
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
-			System.out.println(getJsonObj());
 			reader.close();
 			System.out.println("reader ...geschlossen!");
 		} catch (IOException e) {
@@ -68,8 +67,6 @@ public class JSONFileInitialisator {
 			init();
 		}
 	}
-	
-	
 	
 	/**
 	 * Vorlageninhalt für leere JSON-Datei.
@@ -91,7 +88,6 @@ public class JSONFileInitialisator {
 			setExcMessage(" ...gespeichert");
 			System.out.println("...gespeichert");
 			writer.close();
-			out.close();
 			System.out.println("writer ...geschlossen!");
 		} catch (IOException e) {
 			setExcMessage(e.toString());

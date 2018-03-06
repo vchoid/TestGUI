@@ -58,7 +58,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	// #########################################################################
 	
 	public JSONFileContentHandler() {
-		init();
+//		init();
 	}
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
@@ -266,7 +266,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator{
 	 * @param array
 	 */
 	private void removeValueFromArray(String value, JsonArray array) {
-		System.out.println("\n+++++++++++++++ L�SCHEN ++++++++++++++++");
+		System.out.println("\n+++++++++++++++ LÖSCHEN ++++++++++++++++");
 		if (isValueInArray(array, "name", value)) {
 			try {
 				array.remove(getPositionInArray());

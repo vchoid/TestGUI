@@ -66,6 +66,10 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	 * </p>
 	 */
 	public void saveServerValuesInAList() {
+		if(!serverNameList.isEmpty()) {
+			clearList(serverNameList);
+			clearList(serverNameList);
+		}
 		// Servername in neue List speichern
 		saveValuesInArray(getServerArray(), "name", serverNameList);
 		// IP-Adressen aus Server-Array in neue List speichern
@@ -87,10 +91,20 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	public void savePortValuesInAList() {
 		// die Port-Werte in neue Liste speichern
 		saveValuesInArray(getPortsArray(), "port", portList);
+		if(!portList.isEmpty()) {
+			// doppelt löschen, weil sonst nicht alle Werte gelöscht werden.
+			clearList(portNameList);
+			clearList(portNameList);
+		}
 		// die Port-Werte in neue Liste speichern
 		saveValuesInArray(getPortsArray(), "name", portNameList);
 	}
-
+	
+	public void clearList(ObservableList<String> oList) {
+		for (int i = 0; i < oList.size(); i++) {
+			oList.remove(i);
+		}
+	}
 	
 	// #########################################################################
 	// ## Getter und Setter ####################################################
@@ -115,8 +129,5 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	public ObservableList<String> getPortNameList() {
 		return portNameList;
 	}
-	// --> Array Iteration -----------------------------------------------------
-
-	
 
 }
