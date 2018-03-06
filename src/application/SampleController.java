@@ -1,6 +1,5 @@
 package application;
 
-import java.lang.reflect.GenericArrayType;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -59,7 +58,9 @@ public class SampleController implements Initializable {
 	@FXML
 	private Button delPortButton;
 
-	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// #########################################################################
+	// ## Port #################################################################
+	// #########################################################################
 
 	/**
 	 * Überprüft ob gültige Werte in den Feldern geschrieben wurden.
@@ -81,19 +82,6 @@ public class SampleController implements Initializable {
 		}
 		return false;
 	}
-
-	public void saveServerEntry() {
-		if (isSAddrFieldValid()) {
-			s = new Server(serverNameTField.getText());
-			s.createServerViaIP(ipConcat);
-			jfList.init();
-			jfList.addServer(s);
-			loadList();
-			System.out.println(jfList.getServerArray());
-			messageLabel.setText(jfList.getExcMessage());
-		}
-		clearServerField();
-	}
 	public void clearServerField() {
 		serverNameTField.clear();
 		sAddr1TField.clear();
@@ -101,14 +89,33 @@ public class SampleController implements Initializable {
 		sAddr3TField.clear();
 		sAddr4TField.clear();
 	}
-
-	public void loadList() {
-		jfList.saveLists();
-		portChoiceBox.setItems(jfList.getPortNameList());
+	public void updateServerList() {
+		jfList.saveServerValuesInAList();;
 		serverChoiceBox.setItems(jfList.getServerNameList());
 	}
 
-	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public void delServerEntry() {
+		jfList.deleteServer(serverChoiceBox.getValue());
+		updateServerList();
+	}
+	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public void saveServerEntry() {
+		if (isSAddrFieldValid()) {
+			s = new Server(serverNameTField.getText());
+			s.createServerViaIP(ipConcat);
+			jfList.init();
+			jfList.addServer(s);
+			updateServerList();
+			System.out.println(jfList.getServerArray());
+			messageLabel.setText(jfList.getExcMessage());
+		}
+		clearServerField();
+	}
+	// #########################################################################
+	// ## Port #################################################################
+	// #########################################################################
 
 	/**
 	 * Überprüft ob gültige Werte in den Feldern geschrieben wurden.
@@ -130,13 +137,25 @@ public class SampleController implements Initializable {
 		portAddrTField.clear();
 	}
 	
+	public void updatePortList() {
+		jfList.savePortValuesInAList();;
+		portChoiceBox.setItems(jfList.getPortNameList());
+	}
+	
+	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public void delportEntry() {
+		jfList.deletePort(portChoiceBox.getValue());
+		updatePortList();
+	}
+	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void savePortEntry() {
 		if (isPortFieldValid()) {
 			p = new Port(portNameTField.getText());
 			p.createPort(Integer.parseInt(portAddrTField.getText()));
 			jfList.init();
 			jfList.addPort(p);
-			loadList();
+			updatePortList();
 			System.out.println(jfList.getPortsArray());
 			messageLabel.setText(jfList.getExcMessage());
 		}
@@ -146,7 +165,8 @@ public class SampleController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		jfList.init();
-		loadList();
+		updatePortList();
+		updateServerList();
 	}
 
 }

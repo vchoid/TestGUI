@@ -27,7 +27,7 @@
                      <children>
                         <ChoiceBox fx:id="serverChoiceBox" layoutX="15.0" layoutY="21.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <Button fx:id="editServerButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
-                        <Button fx:id="delServerButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
+                        <Button fx:id="delServerButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" onAction="#delServerEntry" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
                      </children>
                   </AnchorPane>
                </children>
@@ -41,7 +41,7 @@
                   <AnchorPane layoutX="11.0" layoutY="140.0" prefHeight="61.0" prefWidth="170.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0">
                      <children>
                         <ChoiceBox fx:id="portChoiceBox" layoutX="15.0" layoutY="21.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="delPortButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
+                        <Button fx:id="delPortButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" onAction="#delportEntry" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
                         <Button fx:id="editPortButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
                      </children>
                   </AnchorPane>
