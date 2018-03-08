@@ -9,7 +9,7 @@ public class TestMain {
 		JSONFileContentHandler jf = new JSONFileContentHandler();
 		jf.init();
 		Port p = new Port("test");
-		p.createPort("1234");
+		p.createValidPort("1234");
 		jf.addPort(p);
 //		
 		Server s = new Server("Test");

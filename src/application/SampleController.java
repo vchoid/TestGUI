@@ -37,17 +37,9 @@ public class SampleController implements Initializable {
 
 	private Server sOld;
 	private Server sNew;
-	private String serverName;
 	private String ipTFieldConcat;
-	private String[] ipPartsAdd;
-	private String[] ipPartsEdit;
-	private String ipEditConcat;
-
-	private String ip;
-	private String[] ipArr;
 
 	private boolean isServerEditActiv;
-	private boolean isServerChoiceBoxActiv;
 
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
@@ -75,16 +67,18 @@ public class SampleController implements Initializable {
 	// ## Port #################################################################
 	// #########################################################################
 	/**
-	 * Überprüft ob gültige Werte in den Feldern geschrieben wurden.
+	 * Überprüft ob die die Felder nicht leer sind. Wenn ja dann lege einen neuen
+	 * Portnamen an. Lege einen einen neuen Port an, welcher beim erzeugen validiert
+	 * wird und ein true oder false zurück gibt. Bei false leere die Eingabefelder
 	 * 
 	 * @return
 	 */
 	private boolean isPortFieldNotEmptyAndValid() {
 		if (!portNameTField.getText().isEmpty() || !portAddrTField.getText().isEmpty()) {
-			if (rv.validateOnlyNumField(portAddrTField.getText())) {
-				return true;
-			}
+			pNew = new Port(portNameTField.getText());
+			return pNew.createValidPort(portAddrTField.getText());
 		}
+		clearPortField();
 		return false;
 	}
 
@@ -123,7 +117,7 @@ public class SampleController implements Initializable {
 	 */
 	public void editPortEntry() {
 		pOld = new Port(portChoiceBox.getValue());
-		pOld.createPort(jfList.searchValueByName(jfList.getPortsArray(), pOld.getName(), "port"));
+		pOld.createValidPort(jfList.searchValueByName(jfList.getPortsArray(), pOld.getName(), "port"));
 		portNameTField.setText(pOld.getName());
 		portAddrTField.setText(pOld.getPort());
 		setPortEditActiv(true);
@@ -141,11 +135,10 @@ public class SampleController implements Initializable {
 	 */
 	public void savePortEntry() {
 		if (isPortFieldNotEmptyAndValid()) {
-			pNew = new Port(portNameTField.getText());
-			pNew.createPort(portAddrTField.getText());
 			jfList.init();
 			if (isPortEditActiv) {
 				jfList.deletePort(pOld.getName());
+				setPortEditActiv(false);
 			}
 			jfList.addPort(pNew);
 			System.out.println(jfList.getPortsArray());
@@ -177,6 +170,7 @@ public class SampleController implements Initializable {
 		}
 		return false;
 	}
+
 	/**
 	 * Leere alle Server-Eingabefelder.
 	 */
@@ -187,6 +181,7 @@ public class SampleController implements Initializable {
 		ipAddr3TField.clear();
 		ipAddr4TField.clear();
 	}
+
 	/**
 	 * Aktualisiere den Inhalt der Server-ChoiceBox.
 	 */
@@ -201,14 +196,15 @@ public class SampleController implements Initializable {
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void delServerEntry() {
 		jfList.deleteServer(serverChoiceBox.getValue());
+		clearServerField();
+		setServerEditActiv(false);
 		updateServerList();
 	}
 
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
 
 	public void editServerEntry() {
-		
+		sOld = new Server(serverChoiceBox.getValue());
 	}
 
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -217,10 +213,8 @@ public class SampleController implements Initializable {
 			sNew = new Server(serverNameTField.getText());
 			sNew.setIPcreateHost(ipTFieldConcat);
 			jfList.init();
-			System.out.println(isServerChoiceBoxActiv() && isServerEditActiv());
-			if (isServerChoiceBoxActiv() && isServerEditActiv()) {
-				editServerEntry();
-				setServerChoiceBoxActiv(false);
+			if (isServerEditActiv()) {
+
 				setServerEditActiv(false);
 			}
 			jfList.addServer(sNew);
@@ -245,14 +239,6 @@ public class SampleController implements Initializable {
 
 	public boolean isServerEditActiv() {
 		return isServerEditActiv;
-	}
-
-	public boolean isServerChoiceBoxActiv() {
-		return isServerChoiceBoxActiv;
-	}
-
-	public void setServerChoiceBoxActiv(boolean isServerChoiceBoxActiv) {
-		this.isServerChoiceBoxActiv = isServerChoiceBoxActiv;
 	}
 
 	public void setServerEditActiv(boolean isServerEditActiv) {
