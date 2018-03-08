@@ -15,8 +15,10 @@ public class Server {
 	private String name;
 	private String host;
 	private String ip;
+	private String[] ipArr;
 	private InetAddress inet;
-	private String excMessage;
+	
+	private RegExValidator rv = new RegExValidator();
 
 	public Server(String name) {
 		super();
@@ -29,16 +31,21 @@ public class Server {
 	 * @param ip
 	 * @return
 	 */
-	public Server setIPcreateHost(String ip) {
-		try {
-			inet = InetAddress.getByName(ip);
-		} catch (UnknownHostException e) {
-			// TODO l�schen
-			System.out.print(" -> ungültige IP-Adresse");
+	public boolean createValidIpWithArrayGetHost(String ip) {
+		if(rv.validateIP(ip)) {
+			try {
+				inet = InetAddress.getByName(ip);
+				this.ip = ip;
+				makeArrayFromIp(ip);
+				this.host = inet.getHostName();
+				
+			} catch (UnknownHostException e) {
+				// TODO löschen
+				System.out.print(" -> ungültige IP-Adresse");
+			}
+			return true;
 		}
-		this.ip = ip;
-		this.host = inet.getHostName();
-		return this;
+		return false;
 	}
 
 	/**
@@ -57,8 +64,8 @@ public class Server {
 	 * @param ip
 	 * @return String[] ip
 	 */
-	public String[] makeArrayFromIp(String ip) {
-		return ip.split("\\.", 4);
+	private String[] makeArrayFromIp(String ip) {
+		return this.ipArr = ip.split("\\.", 4);
 	}
 
 	public String getHost() {
@@ -77,6 +84,12 @@ public class Server {
 		this.ip = ip;
 	}
 
+	public String[] getIpArr() {
+		return ipArr;
+	}
+	public void setIpArr(String[] ipArr) {
+		this.ipArr = ipArr;
+	}
 	public String getName() {
 		return name;
 	}
@@ -84,10 +97,4 @@ public class Server {
 		this.name = name;
 	}
 
-	public String getExcMessage() {
-		return excMessage;
-	}
-	public void setExcMessage(String excMessage) {
-		this.excMessage = excMessage;
-	}
 }

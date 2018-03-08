@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
 //TODO syso -> l�schen								
 //TODO regEx -> bei add und edit Funktionen machen	�
 //TODO Funktionsnamen ggf. anpassen					
@@ -56,10 +55,6 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	// #########################################################################
 	// ## Prüfen auf validen Inhalt ############################################
 	// #########################################################################
-
-	public JSONFileContentHandler() {
-		// init();
-	}
 
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
@@ -137,21 +132,21 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	// ## search-Methode #######################################################
 	// #########################################################################
 	/**
-	 * Gibt anhand eines Keys(hintVal) den Wert(needVal) aus dem jeweiligen
-	 * Array(array) zurück.
+	 * Gibt einen Wert(getValueDoYouNeed) eines Array anhand des Wertes
+	 * 'name'(byNameValue) zurück.
 	 * 
-	 * @param array
-	 * @param hintVal
-	 * @param needVal
+	 * @param searchFromArray
+	 * @param byNameValue
+	 * @param getValueDoYouNeed
 	 * @return
 	 */
-	public String searchValueByName(JsonArray array, String hintVal, String needVal) {
-		for (int i = 0; i < array.size(); i++) {
-			JsonObject temp = array.get(i).getAsJsonObject();
+	public String searchValueByName(JsonArray searchFromArray, String byNameValue, String getValueDoYouNeed) {
+		for (int i = 0; i < searchFromArray.size(); i++) {
+			JsonObject temp = searchFromArray.get(i).getAsJsonObject();
 			JsonElement keyTemp = temp.get("name");
-			if (keyTemp.getAsString().equalsIgnoreCase(hintVal)) {
-				JsonObject tempObj = (JsonObject) array.get(i);
-				String val = tempObj.get(needVal).toString().replace("\"", "");
+			if (keyTemp.getAsString().equalsIgnoreCase(byNameValue)) {
+				JsonObject tempObj = (JsonObject) searchFromArray.get(i);
+				String val = tempObj.get(getValueDoYouNeed).toString().replace("\"", "");
 				System.out.println(val);
 				return val;
 			}
@@ -350,130 +345,6 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	public void deleteServer(String serverName) {
 		deleteValuesFromArray(getServerArray(), "server", serverName);
 		setExcMessage("... gelöscht");
-	}
-
-	// #########################################################################
-	// ## edit Methoden ########################################################
-	// #########################################################################
-	/**
-	 * 
-	 * Verändert einzelne Wertepaare aus dem Array.
-	 * 
-	 * überprüft zuerst ob der alte Wert existiert. Speichert tempor�r das Array.
-	 * überprüft als nächstes, ob der neue Wert nicht schon vorhanden ist. Wenn er
-	 * nicht existiert, dann füge den neuen Wert dem Array hinzu und schreibe das
-	 * neue Array in die Datei.
-	 * 
-	 * @param jArray
-	 * @param arrayInFile
-	 * @param key
-	 * @param oldVal
-	 * @param newVal
-	 */
-	private void editValuesFromArray(JsonArray jArray, String arrayInFile, String key, String oldVal, String newVal) {
-		System.out.println("\n////////////// BEARBEITEN //////////////");
-		// überprüfen ob der alter Wert überhaupt existiert
-		if (isValueInArray(jArray, key, oldVal)) {
-			JsonObject temp = (JsonObject) jArray.get(getPositionInArray());
-			// überprüfen ob der neue Wert bereits existiert
-			if (!isValueInArray(jArray, key, newVal)) {
-				temp.addProperty(key, newVal);
-				addNewArrayInJSONFile(jArray, arrayInFile);
-			} else {
-				// TODO l�schen!
-				System.out.println("  -> keine doppelten Werte erlaubt");
-				setExcMessage("keine doppelten Werte erlaubt");
-			}
-		} else {
-			System.out.print(oldVal);
-			System.out.println(" -> nicht gefunden");
-			setExcMessage("nicht gefunden");
-		}
-	}
-
-	// TODO in Add/Delete methode in die EditPort methode integrieren
-	/*
-	 * public void editPort(Port oldPort, Port newPort){
-	 * deletePort(oldPort.getName()); addPort(newPort); }
-	 */
-	
-	public void editPort(Port oldPort, Port newPort) {
-		deletePort(oldPort.getName());
-		addPort(newPort);
-	}
-
-	/**
-	 * 
-	 * Verändert den Port aus dem Port-Array mit der
-	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode.
-	 * 
-	 * @param oldVal
-	 * @param newVal
-	 */
-	public void editPortVal(String oldVal, String newVal) {
-		editValuesFromArray(getPortsArray(), "ports", "port", oldVal, newVal);
-	}
-
-	/**
-	 * Verändert den Namen aus dem Port-Array mit der
-	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode..
-	 * 
-	 * @param oldVal
-	 * @param newVal
-	 */
-	public void editPortName(String oldVal, String newVal) {
-		editValuesFromArray(getPortsArray(), "ports", "name", oldVal, newVal);
-	}
-
-	// TODO in Add/Delete methode in die EditServer methode integrieren
-	/*
-	 * -> public void editServer(Server oldServer, Server newServer){
-	 * deleteServer(oldServer.getName()); addServer(newServer); }
-	 */
-	public void editServer(Server oldServer, Server newServer) {
-		deleteServer(oldServer.getName());
-		addServer(newServer);
-	}
-	
-	/**
-	 * 
-	 * @param oldVal
-	 * @param newVal
-	 */
-	public void editServerIP(String[] oldVal, String[] newVal) {
-		String ipConcatOld = oldVal[0] + "." + oldVal[1] + "." + oldVal[2] + "." + oldVal[3];
-		String ipConcatNew = newVal[0] + "." + newVal[1] + "." + newVal[2] + "." + newVal[3];
-		editValuesFromArray(getServerArray(), "server", "ip", ipConcatOld, ipConcatNew);
-	}
-
-	/**
-	 * 
-	 * @param oldVal
-	 * @param newVal
-	 */
-	public void editServerName(String oldVal, String newVal) {
-		editValuesFromArray(getServerArray(), "server", "name", oldVal, newVal);
-
-	}
-
-	/**
-	 * Macht aus den 4 einzelnen Teilen einer Ip eine einzige IP-Adresse.
-	 * 
-	 * @param ipArr
-	 * @return String ip
-	 */
-	public String makeIpFromArray(String[] ipArr) {
-		return ipArr[0] + "." + ipArr[1] + "." + ipArr[2] + "." + ipArr[3];
-	}
-
-	/**
-	 * Verteilt die einzelnen Teile einer IP-Adresse auf ein String-Array.
-	 * 
-	 * @param ip
-	 * @return String[] ip
-	 */
-	public String[] makeArrayFromIp(String ip) {
-		return ip.split("\\.", 4);
 	}
 
 	// #########################################################################
