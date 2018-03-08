@@ -8,35 +8,47 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="198.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+<BorderPane prefHeight="198.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
    <center>
       <AnchorPane prefHeight="229.0" prefWidth="386.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane layoutY="9.0" prefHeight="221.0" prefWidth="190.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="serverNameTField" layoutX="19.0" layoutY="14.0" prefHeight="25.0" prefWidth="170.0" promptText="Server Name" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                  <TextField fx:id="sAddr1TField" layoutX="20.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
-                  <TextField fx:id="sAddr2TField" layoutX="65.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="45.0" />
-                  <TextField fx:id="sAddr3TField" layoutX="110.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0" />
-                  <TextField fx:id="sAddr4TField" layoutX="155.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="45.0" />
-                  <Button fx:id="saveServerBtn" layoutX="111.0" layoutY="86.0" mnemonicParsing="false" onAction="#saveServerEntry" text="Speichern" AnchorPane.leftAnchor="111.0" AnchorPane.topAnchor="80.0" />
+                  <TextField fx:id="ipAddr1TField" layoutX="20.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font></TextField>
+                  <TextField fx:id="ipAddr2TField" layoutX="65.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="45.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font></TextField>
+                  <TextField fx:id="ipAddr3TField" layoutX="110.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font></TextField>
+                  <TextField fx:id="ipAddr4TField" layoutX="155.0" layoutY="51.0" prefHeight="25.0" prefWidth="36.0" promptText="000" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="45.0">
+                     <font>
+                        <Font size="11.0" />
+                     </font></TextField>
+                  <Button fx:id="saveServerBtn" layoutX="100.0" layoutY="80.0" mnemonicParsing="false" onAction="#saveServerEntry" text="Speichern" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="80.0" />
                   <Button fx:id="cancelServerBtn" layoutX="20.0" layoutY="86.0" mnemonicParsing="false" onAction="#clearServerField" text="Abbrechen" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
-                  <Label alignment="CENTER" layoutX="45.0" layoutY="50.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="50.0">
+                  <Label alignment="CENTER" layoutX="46.0" layoutY="53.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="53.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Label>
-                  <Label alignment="CENTER" layoutX="90.0" layoutY="50.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="50.0">
+                  <Label alignment="CENTER" layoutX="91.0" layoutY="53.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d" AnchorPane.leftAnchor="91.0" AnchorPane.topAnchor="53.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Label>
                   <AnchorPane layoutX="11.0" layoutY="120.0" prefHeight="61.0" prefWidth="170.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0">
                      <children>
-                        <ChoiceBox fx:id="serverChoiceBox" layoutX="15.0" layoutY="21.0" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="editServerButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
-                        <Button fx:id="delServerButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" onAction="#delServerEntry" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
+                        <ChoiceBox fx:id="serverChoiceBox" layoutX="15.0" layoutY="21.0" onMouseClicked="#activateServerEdit" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="editServerButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#getServerChoiceBoxValues" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
+                        <Button fx:id="delServerButton" layoutX="100.0" layoutY="35.0" mnemonicParsing="false" onAction="#delServerEntry" text="Löschen" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="35.0" />
                      </children>
                   </AnchorPane>
-                  <Label alignment="CENTER" layoutX="135.0" layoutY="50.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d">
+                  <Label alignment="CENTER" layoutX="136.0" layoutY="53.0" prefHeight="17.0" prefWidth="9.0" text="." textAlignment="RIGHT" textFill="#0000004d">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -47,12 +59,12 @@
                <children>
                   <TextField fx:id="portNameTField" layoutX="15.0" layoutY="10.0" prefHeight="25.0" prefWidth="170.0" promptText="Port Name" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
                   <TextField fx:id="portAddrTField" layoutX="15.0" layoutY="49.0" prefHeight="25.0" prefWidth="170.0" promptText="z.B. 1234" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
-                  <Button fx:id="savePortBtn" layoutX="111.0" layoutY="80.0" mnemonicParsing="false" onAction="#savePortEntry" text="Speichern" AnchorPane.leftAnchor="111.0" AnchorPane.topAnchor="80.0" />
+                  <Button fx:id="savePortBtn" layoutX="100.0" layoutY="80.0" mnemonicParsing="false" onAction="#savePortEntry" text="Speichern" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="80.0" />
                   <Button fx:id="cancelPortBtn" layoutX="15.0" layoutY="84.0" mnemonicParsing="false" onAction="#clearPortField" text="Abbrechen" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
                   <AnchorPane layoutX="11.0" layoutY="140.0" prefHeight="61.0" prefWidth="170.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0">
                      <children>
-                        <ChoiceBox fx:id="portChoiceBox" layoutX="15.0" layoutY="21.0" onMouseClicked="#portChoiceBoxClicker" onMouseReleased="#getPortChoiceBoxValues" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="delPortButton" layoutX="110.0" layoutY="35.0" mnemonicParsing="false" onAction="#delportEntry" text="Löschen" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="35.0" />
+                        <ChoiceBox fx:id="portChoiceBox" layoutX="15.0" layoutY="21.0" onMouseClicked="#activatePortEdit" prefHeight="25.0" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="delPortButton" layoutX="100.0" layoutY="35.0" mnemonicParsing="false" onAction="#delportEntry" text="Löschen" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="35.0" />
                         <Button fx:id="editPortButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#getPortChoiceBoxValues" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
                      </children>
                   </AnchorPane>

@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 public class JSONFileContentInAList extends JSONFileContentHandler{
 
 	// #########################################################################
-	// ## Variablen 														   #
+	// ## Variablen 														  	 #
 	// #########################################################################
 	
 	// --> Listen für View -----------------------------------------------------
@@ -21,7 +21,7 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	private ObservableList<String> hostList = FXCollections.observableArrayList();
 	
 	// #########################################################################
-	// ## Initialisieren 													   #
+	// ## Initialisieren 													 #
 	// #########################################################################
 	
 	public JSONFileContentInAList() {
@@ -33,7 +33,7 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 		savePortValuesInAList();
 	}
 	// #########################################################################
-	// ## Daten als für View												   #
+	// ## Daten als für View													 #
 	// #########################################################################
 
 	/**

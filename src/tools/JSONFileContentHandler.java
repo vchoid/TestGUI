@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+
 //TODO syso -> l�schen								
 //TODO regEx -> bei add und edit Funktionen machen	�
 //TODO Funktionsnamen ggf. anpassen					
@@ -57,8 +58,9 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	// #########################################################################
 
 	public JSONFileContentHandler() {
-//		init();
+		// init();
 	}
+
 	/**
 	 * Sucht einen Wert anhand des gesetzten Parameters im Array.
 	 * 
@@ -84,17 +86,16 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 				// die Position des Elements im Array gesetzt
 				setPositionInArray(i);
 				// TODO l�schen!
-				System.out.print(
-						"#" + getPositionInArray() + " " + getSearchElement());
+				System.out.print("#" + getPositionInArray() + " " + getSearchElement());
 				return true;
 			}
 		}
 		return false;
 	}
+
 	/**
-	 * Prüft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
-	 * ob der Port bereits im Array vorhanden ist. Wenn ja dann gib ein true
-	 * zurück.
+	 * Prüft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode, ob
+	 * der Port bereits im Array vorhanden ist. Wenn ja dann gib ein true zurück.
 	 * 
 	 * @param name
 	 * @param port
@@ -113,9 +114,8 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	}
 
 	/**
-	 * Prüft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode,
-	 * ob der Server bereits im Array vorhanden ist. Wenn ja dann gib ein true
-	 * zurück.
+	 * Prüft mit der {@link #isValueInArray(JsonArray, String, String)}-Methode, ob
+	 * der Server bereits im Array vorhanden ist. Wenn ja dann gib ein true zurück.
 	 * 
 	 * @param name
 	 * @param ipOrHost
@@ -137,26 +137,28 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	// ## search-Methode #######################################################
 	// #########################################################################
 	/**
-	 * Gibt anhand eines Keys(searchVal) den Wert aus dem jeweiligen Array
-	 * zurück.
+	 * Gibt anhand eines Keys(hintVal) den Wert(needVal) aus dem jeweiligen
+	 * Array(array) zurück.
 	 * 
 	 * @param array
-	 * @param searchVal
-	 * @param keyName
+	 * @param hintVal
+	 * @param needVal
 	 * @return
 	 */
-	public String searchValueByName(JsonArray array, String searchVal,
-			String keyName) {
+	public String searchValueByName(JsonArray array, String hintVal, String needVal) {
 		for (int i = 0; i < array.size(); i++) {
 			JsonObject temp = array.get(i).getAsJsonObject();
 			JsonElement keyTemp = temp.get("name");
-			if (keyTemp.getAsString().equalsIgnoreCase(searchVal)) {
+			if (keyTemp.getAsString().equalsIgnoreCase(hintVal)) {
 				JsonObject tempObj = (JsonObject) array.get(i);
-				return tempObj.get(keyName).toString();
+				String val = tempObj.get(needVal).toString().replace("\"", "");
+				System.out.println(val);
+				return val;
 			}
 		}
 		return "";
 	}
+
 	// #########################################################################
 	// ## add-Methode ##########################################################
 	// #########################################################################
@@ -170,9 +172,10 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		// Objekt in Array anfügen
 		array.add(newObject);
 	}
+
 	/**
-	 * Holt das JSONObjekt mit der {@link #getJsonObj()}-Methode und schreibt
-	 * mit der {@link #writeInFile(String)}-Methode das neue Objekt.
+	 * Holt das JSONObjekt mit der {@link #getJsonObj()}-Methode und schreibt mit
+	 * der {@link #writeInFile(String)}-Methode das neue Objekt.
 	 * 
 	 * @param array
 	 * @param key
@@ -183,19 +186,19 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		// verändertes Objekt als String in Datei schreiben
 		writeInFile(getJsonObj().toString());
 	}
+
 	/**
-	 * Fügt mit der {@link #addNewObjectInArray(JsonArray, JsonObject)}-Methode
-	 * das Objekt in das Array ein und schreibt mit
-	 * der{@link #addNewArrayInJSONFile(JsonArray, String)}-Methode das Objekt
-	 * in die Datei.
+	 * Fügt mit der {@link #addNewObjectInArray(JsonArray, JsonObject)}-Methode das
+	 * Objekt in das Array ein und schreibt mit
+	 * der{@link #addNewArrayInJSONFile(JsonArray, String)}-Methode das Objekt in
+	 * die Datei.
 	 * 
 	 * 
 	 * @param array
 	 * @param newObject
 	 * @param key
 	 */
-	private void addObjectInArrayAndWriteInFile(JsonArray array,
-			JsonObject newObject, String key) {
+	private void addObjectInArrayAndWriteInFile(JsonArray array, JsonObject newObject, String key) {
 		System.out.print(newObject);
 		addNewObjectInArray(array, newObject);
 		// TODO l�schen!
@@ -216,14 +219,15 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		newPort.addProperty("name", port.getName());
 		newPort.addProperty("port", port.getPort());
 	}
+
 	/**
 	 * Ein Port in die Server_Ports.JSON-Datei schreiben
 	 * 
 	 * {@link #addPortValues(Port)} fügt Werte dem Port-Objekt hinzu.
 	 * 
 	 * überprüft mit der {@link #isPortAvailable(Port)}-Methode, ob die Werte
-	 * bereits in dem Port-Objekt vorhanden sind. Wenn nicht, werden die neue
-	 * Werte mit der
+	 * bereits in dem Port-Objekt vorhanden sind. Wenn nicht, werden die neue Werte
+	 * mit der
 	 * {@link #addObjectInArrayAndWriteInFile(JsonArray, JsonObject, String)}-Methode
 	 * dem Array hinzugef�gt und in die Datei geschrieben.
 	 *
@@ -239,6 +243,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 			addObjectInArrayAndWriteInFile(getPortsArray(), newPort, "ports");
 		}
 	}
+
 	// --> Server ----------------------------------------------------------
 	/**
 	 * Fügt drei Key-Value Paare für das Server-Array hinzu.
@@ -257,9 +262,9 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	 * 
 	 * {@link #addServerValues(Server)} fügt Werte dem Server-Objekt hinzu.
 	 * 
-	 * überprüft mit der {@link #isServerAvailable(Server)}-Methode, ob die
-	 * Werte bereits in dem Server-Objekt vorhanden sind. Wenn nicht, werden die
-	 * neue Werte mit der
+	 * überprüft mit der {@link #isServerAvailable(Server)}-Methode, ob die Werte
+	 * bereits in dem Server-Objekt vorhanden sind. Wenn nicht, werden die neue
+	 * Werte mit der
 	 * {@link #addObjectInArrayAndWriteInFile(JsonArray, JsonObject, String)}-Methode
 	 * dem Array hinzugefügt und in die Datei geschrieben.
 	 * 
@@ -271,19 +276,19 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		// prüfen ob bereits vorhanden
 		if (!isServerAvailable(server)) {
 			// neuen validen Wert schreiben
-			addObjectInArrayAndWriteInFile(getServerArray(), newServer,
-					"server");
+			addObjectInArrayAndWriteInFile(getServerArray(), newServer, "server");
 		}
 	}
+
 	// #########################################################################
 	// ## delete Methoden ######################################################
 	// #########################################################################
 	/**
 	 * Löscht einen Wert aus einem Array. überprüft mit der
-	 * {@link #isValueInArray(JsonArray, String, String)}-Methode, ob der Wert
-	 * im Array ist, wenn ja wird der Eintrag über die
-	 * {@link #getPositionInArray()}-Methode ermittelt und aus dem Array
-	 * entfernt. Der Wert Success wird auf true gesetzt.
+	 * {@link #isValueInArray(JsonArray, String, String)}-Methode, ob der Wert im
+	 * Array ist, wenn ja wird der Eintrag über die
+	 * {@link #getPositionInArray()}-Methode ermittelt und aus dem Array entfernt.
+	 * Der Wert Success wird auf true gesetzt.
 	 * 
 	 * @param value
 	 * @param array
@@ -304,6 +309,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 			setSuccess(false);
 		}
 	}
+
 	/**
 	 * Entfernt Werte aus einem Array mit der
 	 * {@link #removeValueFromArray(String, JsonArray)}-Methode. Mit der
@@ -317,13 +323,13 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	 * @param arrayInFile
 	 * @param value
 	 */
-	private void deleteValuesFromArray(JsonArray array, String arrayInFile,
-			String value) {
+	private void deleteValuesFromArray(JsonArray array, String arrayInFile, String value) {
 		removeValueFromArray(value, array);
 		if (getSuccess()) {
 			addNewArrayInJSONFile(array, arrayInFile);
 		}
 	}
+
 	/**
 	 * Löscht ein Port anhand des Parameters mit der
 	 * {@link #deleteValuesFromArray(JsonArray, String, String)}-Methode.
@@ -334,6 +340,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		deleteValuesFromArray(getPortsArray(), "ports", portName);
 		setExcMessage("... gelöscht");
 	}
+
 	/**
 	 * Löscht ein Server anhand des Parameters mit der
 	 * {@link #deleteValuesFromArray(JsonArray, String, String)}-Methode..
@@ -352,10 +359,10 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	 * 
 	 * Verändert einzelne Wertepaare aus dem Array.
 	 * 
-	 * überprüft zuerst ob der alte Wert existiert. Speichert tempor�r das
-	 * Array. überprüft als nächstes, ob der neue Wert nicht schon vorhanden
-	 * ist. Wenn er nicht existiert, dann füge den neuen Wert dem Array hinzu
-	 * und schreibe das neue Array in die Datei.
+	 * überprüft zuerst ob der alte Wert existiert. Speichert tempor�r das Array.
+	 * überprüft als nächstes, ob der neue Wert nicht schon vorhanden ist. Wenn er
+	 * nicht existiert, dann füge den neuen Wert dem Array hinzu und schreibe das
+	 * neue Array in die Datei.
 	 * 
 	 * @param jArray
 	 * @param arrayInFile
@@ -363,8 +370,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	 * @param oldVal
 	 * @param newVal
 	 */
-	private void editValuesFromArray(JsonArray jArray, String arrayInFile,
-			String key, String oldVal, String newVal) {
+	private void editValuesFromArray(JsonArray jArray, String arrayInFile, String key, String oldVal, String newVal) {
 		System.out.println("\n////////////// BEARBEITEN //////////////");
 		// überprüfen ob der alter Wert überhaupt existiert
 		if (isValueInArray(jArray, key, oldVal)) {
@@ -385,18 +391,15 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		}
 	}
 
-	/**
-	 * Allgemeine Methode zum Bearbeiten von Werten.
-	 * 
-	 * @param array
-	 * @param arrayName
-	 * @param key
-	 * @param oldVal
-	 * @param newVal
+	// TODO in Add/Delete methode in die EditPort methode integrieren
+	/*
+	 * public void editPort(Port oldPort, Port newPort){
+	 * deletePort(oldPort.getName()); addPort(newPort); }
 	 */
-	public void editValueFrom(JsonArray array, String arrayName, String key,
-			String oldVal, String newVal) {
-		editValuesFromArray(array, arrayName, key, oldVal, newVal);
+	
+	public void editPort(Port oldPort, Port newPort) {
+		deletePort(oldPort.getName());
+		addPort(newPort);
 	}
 
 	/**
@@ -407,7 +410,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	 * @param oldVal
 	 * @param newVal
 	 */
-	public void editPort(String oldVal, String newVal) {
+	public void editPortVal(String oldVal, String newVal) {
 		editValuesFromArray(getPortsArray(), "ports", "port", oldVal, newVal);
 	}
 
@@ -422,20 +425,55 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		editValuesFromArray(getPortsArray(), "ports", "name", oldVal, newVal);
 	}
 
-	public void editPortValue(String key, String oldVal, String newVal) {
-		editValuesFromArray(getPortsArray(), "ports", key, oldVal, newVal);
+	// TODO in Add/Delete methode in die EditServer methode integrieren
+	/*
+	 * -> public void editServer(Server oldServer, Server newServer){
+	 * deleteServer(oldServer.getName()); addServer(newServer); }
+	 */
+	public void editServer(Server oldServer, Server newServer) {
+		deleteServer(oldServer.getName());
+		addServer(newServer);
 	}
-
+	
 	/**
-	 * Verändert einzelne Wertepaare aus dem Server-Array mit der
-	 * {@link #editValuesFromArray(JsonArray, String, String, String, String)}-Methode..
 	 * 
-	 * @param key
 	 * @param oldVal
 	 * @param newVal
 	 */
-	public void editServerValue(String key, String oldVal, String newVal) {
-		editValuesFromArray(getServerArray(), "server", key, oldVal, newVal);
+	public void editServerIP(String[] oldVal, String[] newVal) {
+		String ipConcatOld = oldVal[0] + "." + oldVal[1] + "." + oldVal[2] + "." + oldVal[3];
+		String ipConcatNew = newVal[0] + "." + newVal[1] + "." + newVal[2] + "." + newVal[3];
+		editValuesFromArray(getServerArray(), "server", "ip", ipConcatOld, ipConcatNew);
+	}
+
+	/**
+	 * 
+	 * @param oldVal
+	 * @param newVal
+	 */
+	public void editServerName(String oldVal, String newVal) {
+		editValuesFromArray(getServerArray(), "server", "name", oldVal, newVal);
+
+	}
+
+	/**
+	 * Macht aus den 4 einzelnen Teilen einer Ip eine einzige IP-Adresse.
+	 * 
+	 * @param ipArr
+	 * @return String ip
+	 */
+	public String makeIpFromArray(String[] ipArr) {
+		return ipArr[0] + "." + ipArr[1] + "." + ipArr[2] + "." + ipArr[3];
+	}
+
+	/**
+	 * Verteilt die einzelnen Teile einer IP-Adresse auf ein String-Array.
+	 * 
+	 * @param ip
+	 * @return String[] ip
+	 */
+	public String[] makeArrayFromIp(String ip) {
+		return ip.split("\\.", 4);
 	}
 
 	// #########################################################################
@@ -446,12 +484,15 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	public Boolean getSuccess() {
 		return success;
 	}
+
 	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
+
 	public JsonElement getSearchElement() {
 		return searchElement;
 	}
+
 	public void setSearchElement(JsonElement searchElement) {
 		this.searchElement = searchElement;
 	}
@@ -459,18 +500,23 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	public JsonArray getPortsArray() {
 		return portsArray;
 	}
+
 	public void setPortsArray(JsonArray portsArray) {
 		this.portsArray = portsArray;
 	}
+
 	public JsonArray getServerArray() {
 		return serverArray;
 	}
+
 	public void setServerArray(JsonArray serverArray) {
 		this.serverArray = serverArray;
 	}
+
 	public int getPositionInArray() {
 		return positionInArray;
 	}
+
 	public void setPositionInArray(int positionInArray) {
 		this.positionInArray = positionInArray;
 	}

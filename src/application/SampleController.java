@@ -17,9 +17,6 @@ public class SampleController implements Initializable {
 
 	private JSONFileContentInAList jfList = new JSONFileContentInAList();
 	private RegExValidator rv = new RegExValidator();
-	private Port p;
-	private Server s;
-	private String ipConcat;
 
 	// << Exception Ausgabe >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
@@ -28,15 +25,29 @@ public class SampleController implements Initializable {
 	@FXML
 	private TextField serverNameTField;
 	@FXML
-	private TextField sAddr1TField;
+	private TextField ipAddr1TField;
 	@FXML
-	private TextField sAddr2TField;
+	private TextField ipAddr2TField;
 	@FXML
-	private TextField sAddr3TField;
+	private TextField ipAddr3TField;
 	@FXML
-	private TextField sAddr4TField;
+	private TextField ipAddr4TField;
 	@FXML
 	private ChoiceBox<String> serverChoiceBox;
+	
+	private Server s;
+	private String serverName;
+	private String ipTFieldConcat;
+	private String[] ipPartsAdd;
+	private String[] ipPartsEdit;
+	private String ipEditConcat;
+	
+	private String ip;
+	private String[] ipArr;
+	
+	private boolean isServerEditActiv;
+	private boolean isServerChoiceBoxActiv;
+
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private TextField portNameTField;
@@ -44,14 +55,15 @@ public class SampleController implements Initializable {
 	private TextField portAddrTField;
 	@FXML
 	private ChoiceBox<String> portChoiceBox;
-	private boolean isEditActiv;
-	private boolean isChoiceBoxActiv;
-	
+	private boolean isPortEditActiv;
+	private boolean isPortChoiceBoxActiv;
+
+	private Port pOld;
+	private Port pNew;
 	private String portName;
 	private String portAddr;
-
 	// #########################################################################
-	// ## Port #################################################################
+	// ## Server ###############################################################
 	// #########################################################################
 
 	/**
@@ -60,15 +72,12 @@ public class SampleController implements Initializable {
 	 * @return true wenn Feld nicht leer und gültige IP-Adresse
 	 */
 	private boolean isSAddrFieldValid() {
-		if (!serverNameTField.getText().isEmpty()
-				|| !sAddr1TField.getText().isEmpty()
-				|| !sAddr2TField.getText().isEmpty()
-				|| !sAddr3TField.getText().isEmpty()
-				|| !sAddr4TField.getText().isEmpty()) {
-			ipConcat = sAddr1TField.getText() + "." + sAddr2TField.getText()
-					+ "." + sAddr3TField.getText() + "."
-					+ sAddr4TField.getText();
-			if (rv.validateIP(ipConcat)) {
+		if (!serverNameTField.getText().isEmpty() || !ipAddr1TField.getText().isEmpty()
+				|| !ipAddr2TField.getText().isEmpty() || !ipAddr3TField.getText().isEmpty()
+				|| !ipAddr4TField.getText().isEmpty()) {
+			ipTFieldConcat = ipAddr1TField.getText() + "." + ipAddr2TField.getText() + "." + ipAddr3TField.getText() + "."
+					+ ipAddr4TField.getText();
+			if (rv.validateIP(ipTFieldConcat)) {
 				return true;
 			}
 		}
@@ -76,31 +85,55 @@ public class SampleController implements Initializable {
 	}
 	public void clearServerField() {
 		serverNameTField.clear();
-		sAddr1TField.clear();
-		sAddr2TField.clear();
-		sAddr3TField.clear();
-		sAddr4TField.clear();
+		ipAddr1TField.clear();
+		ipAddr2TField.clear();
+		ipAddr3TField.clear();
+		ipAddr4TField.clear();
 	}
 	public void updateServerList() {
-		jfList.saveServerValuesInAList();;
+		jfList.saveServerValuesInAList();
 		serverChoiceBox.setItems(jfList.getServerNameList());
 	}
-
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void delServerEntry() {
 		jfList.deleteServer(serverChoiceBox.getValue());
 		updateServerList();
 	}
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public void getServerChoiceBoxValues() {
+		serverName = serverChoiceBox.getValue();
+		serverNameTField.setText(serverName);
+		ipArr = jfList.makeArrayFromIp(jfList.searchValueByName(jfList.getServerArray(), serverName, "ip"));
+		ipAddr1TField.setText(ipArr[0]);
+		ipAddr2TField.setText(ipArr[1]);
+		ipAddr3TField.setText(ipArr[2]);
+		ipAddr4TField.setText(ipArr[3]);
+		setServerEditActiv(true);
+		System.out.println(isServerEditActiv);
+	}
+	public void activateServerEdit() {
+		setServerChoiceBoxActiv(true);
+		System.out.println(isServerChoiceBoxActiv);
+	}
 	public void editServerEntry() {
-		serverNameTField.setText(serverChoiceBox.getValue());
+//		jfList.editServerName(serverName, serverNameTField.getText());
+		System.out.println(ipArr[0]);
+		String[] t = jfList.makeArrayFromIp(serverNameTField.getText());
+		System.out.println(t[0]);
+//		jfList.editServerIP(ipArr, jfList.makeArrayFromIp(serverNameTField.getText()));
 	}
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void saveServerEntry() {
 		if (isSAddrFieldValid()) {
 			s = new Server(serverNameTField.getText());
-			s.createServerViaIP(ipConcat);
+			s.setIPcreateHost(ipTFieldConcat);
 			jfList.init();
+			System.out.println(isServerChoiceBoxActiv() && isServerEditActiv());
+			if(isServerChoiceBoxActiv() && isServerEditActiv()) {
+				editServerEntry();
+				setServerChoiceBoxActiv(false);
+				setServerEditActiv(false);
+			}
 			jfList.addServer(s);
 			updateServerList();
 			System.out.println(jfList.getServerArray());
@@ -117,9 +150,8 @@ public class SampleController implements Initializable {
 	 * 
 	 * @return
 	 */
-	private boolean isPortFieldValid() {
-		if (!portNameTField.getText().isEmpty()
-				|| !portAddrTField.getText().isEmpty()) {
+	private boolean isPortFieldNotEmptyAndValid() {
+		if (!portNameTField.getText().isEmpty() || !portAddrTField.getText().isEmpty()) {
 			if (rv.validateOnlyNumField(portAddrTField.getText())) {
 				return true;
 			}
@@ -133,52 +165,56 @@ public class SampleController implements Initializable {
 	}
 
 	public void updatePortList() {
-		jfList.savePortValuesInAList();;
+		jfList.savePortValuesInAList();
 		portChoiceBox.setItems(jfList.getPortNameList());
 	}
 
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void delportEntry() {
 		jfList.deletePort(portChoiceBox.getValue());
-		setEditActiv(false);
+		setPortEditActiv(false);
 		clearPortField();
 		updatePortList();
 	}
+
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void getPortChoiceBoxValues() {
 		portName = portChoiceBox.getValue();
 		portNameTField.setText(portName);
-		portAddr = jfList.searchValueByName(jfList.getPortsArray(), portName,
-				"port");
-		portAddr = portAddr.replace("\"", "");
+		portAddr = jfList.searchValueByName(jfList.getPortsArray(), portName, "port");
 		portAddrTField.setText(portAddr);
-		setEditActiv(true);
+		setPortEditActiv(true);
 	}
+
 	public void editPortEntry() {
-		jfList.editPort(portAddr ,portAddrTField.getText());
-		jfList.editPortName(portName, portNameTField.getText());
+		pOld = new Port(portName);
+		pOld.createPort(portAddr);
+		pNew = new Port(portNameTField.getText());
+		pNew.createPort(portAddrTField.getText());
+		jfList.editPort(pOld, pNew);
 	}
-	public void portChoiceBoxClicker() {
-		setChoiceBoxActiv(true);
+
+	public void activatePortEdit() {
+		setPortChoiceBoxActiv(true);
 	}
-	
+
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void savePortEntry() {
-		if (isPortFieldValid()) {
-			p = new Port(portNameTField.getText());
-			p.createPort(portAddrTField.getText());
+		if (isPortFieldNotEmptyAndValid()) {
+			pNew = new Port(portNameTField.getText());
+			pNew.createPort(portAddrTField.getText());
 			jfList.init();
-			if(isEditActiv() && isChoiceBoxActiv()) {
+			if (isPortEditActiv() && isPortChoiceBoxActiv()) {
 				editPortEntry();
-				setEditActiv(false);
-				setChoiceBoxActiv(false);
+				setPortEditActiv(false);
+				setPortChoiceBoxActiv(false);
 			} else {
-				jfList.addPort(p);
+				jfList.addPort(pNew);
 				System.out.println(jfList.getPortsArray());
 				messageLabel.setText(jfList.getExcMessage());
 			}
 			updatePortList();
-		} 
+		}
 		clearPortField();
 	}
 
@@ -192,19 +228,35 @@ public class SampleController implements Initializable {
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################
-	
-	public boolean isEditActiv() {
-		return isEditActiv;
+
+	public boolean isPortEditActiv() {
+		return isPortEditActiv;
 	}
-	public void setEditActiv(boolean editButtonWasPressed) {
-		this.isEditActiv = editButtonWasPressed;
+
+	public void setPortEditActiv(boolean editButtonWasPressed) {
+		this.isPortEditActiv = editButtonWasPressed;
+	}
+
+	public boolean isPortChoiceBoxActiv() {
+		return isPortChoiceBoxActiv;
+	}
+
+	public void setPortChoiceBoxActiv(boolean isChoiceBoxActiv) {
+		this.isPortChoiceBoxActiv = isChoiceBoxActiv;
 	}
 	
-	public boolean isChoiceBoxActiv() {
-		return isChoiceBoxActiv;
+	public boolean isServerEditActiv() {
+		return isServerEditActiv;
+	}
+	public boolean isServerChoiceBoxActiv() {
+		return isServerChoiceBoxActiv;
 	}
 	
-	public void setChoiceBoxActiv(boolean isChoiceBoxActiv) {
-		this.isChoiceBoxActiv = isChoiceBoxActiv;
+	public void setServerChoiceBoxActiv(boolean isServerChoiceBoxActiv) {
+		this.isServerChoiceBoxActiv = isServerChoiceBoxActiv;
+	}
+	
+	public void setServerEditActiv(boolean isServerEditActiv) {
+		this.isServerEditActiv = isServerEditActiv;
 	}
 }
