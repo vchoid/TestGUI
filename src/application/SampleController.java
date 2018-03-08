@@ -151,6 +151,8 @@ public class SampleController implements Initializable {
 			System.out.println(jfList.getPortsArray());
 			messageLabel.setText(jfList.getExcMessage());
 			updatePortList();
+		} else {
+			messageLabel.setText("Ungültiger Port");
 		}
 		clearPortField();
 	}
