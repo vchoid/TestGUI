@@ -147,7 +147,6 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 			if (keyTemp.getAsString().equalsIgnoreCase(byNameValue)) {
 				JsonObject tempObj = (JsonObject) searchFromArray.get(i);
 				String val = tempObj.get(getValueDoYouNeed).toString().replace("\"", "");
-				System.out.println(val);
 				return val;
 			}
 		}

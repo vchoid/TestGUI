@@ -1,0 +1,17 @@
+[
+	{
+		"server": "PreProd-Server",
+		"port": "Tomcat",
+		"isConnected": false
+	},
+	{
+		"server": "Staging-Server",
+		"port": "Tomcat",
+		"isConnected": false
+	},
+	{
+		"server": "PreProd-Server",
+		"port": "Tomcat",
+		"isConnected": false
+	}
+]

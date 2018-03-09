@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tools.JSONFileContentInAList;
@@ -31,13 +31,15 @@ public class SampleController implements Initializable {
 	@FXML
 	private TextField ipAddr3TField;
 	@FXML
-	private ChoiceBox<String> serverChoiceBox;
-
+	private ComboBox<String> serverComboBox;
+	@FXML
+	private Label serverPH;
+	
+	private String ipTFieldConcat;
 	private Server sOld;
 	private Server sNew;
-	private String ipTFieldConcat;
-
 	private boolean isServerEditActiv;
+	private boolean isServerChoiceMade;
 
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
@@ -45,11 +47,14 @@ public class SampleController implements Initializable {
 	@FXML
 	private TextField portAddrTField;
 	@FXML
-	private ChoiceBox<String> portChoiceBox;
-	private boolean isPortEditActiv;
-
+	private ComboBox<String> portComboBox;
+	@FXML Label portPH;
+	
 	private Port pOld;
 	private Port pNew;
+	private boolean isPortEditActiv;
+	private boolean isPortChoiceMade;
+
 
 	// #########################################################################
 	// ## Init #################################################################
@@ -61,9 +66,19 @@ public class SampleController implements Initializable {
 		updateServerList();
 	}
 
+	public void editAreaDefault() {
+		clearPortField();
+		clearServerField();
+	}
 	// #########################################################################
 	// ## Port #################################################################
 	// #########################################################################
+	public void disablePortPH() {
+		portPH.setVisible(false);
+	}
+	public void enablePortPH() {
+		portPH.setVisible(true);
+	}
 	/**
 	 * Überprüft ob die die Felder nicht leer sind. Wenn ja dann lege einen neuen
 	 * Portnamen an. Lege einen einen neuen Port an, welcher beim erzeugen validiert
@@ -86,15 +101,20 @@ public class SampleController implements Initializable {
 	public void clearPortField() {
 		portNameTField.clear();
 		portAddrTField.clear();
-		setPortEditActiv(false);
+		updatePortList();
+		enablePortPH();
 	}
 
 	/**
 	 * Aktualisiert den Inhalt der ChoiceBox für die Ports.
 	 */
-	public void updatePortList() {
+	private void updatePortList() {
 		jfList.savePortValuesInAList();
-		portChoiceBox.setItems(jfList.getPortNameList());
+		portComboBox.setItems(jfList.getPortNameList());
+		isPortEditActiv = false;
+	}
+	public void setPortChoice() {
+		isPortChoiceMade = true;
 	}
 
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -102,10 +122,10 @@ public class SampleController implements Initializable {
 	 * Löscht einen Port aus der JSON-Datei
 	 */
 	public void delportEntry() {
-		jfList.deletePort(portChoiceBox.getValue());
-		setPortEditActiv(false);
+		if(isPortChoiceMade) {
+			jfList.deletePort(portComboBox.getValue());
+		}
 		clearPortField();
-		updatePortList();
 	}
 
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -114,11 +134,13 @@ public class SampleController implements Initializable {
 	 * Anschließend wird der Status Bearbeiten auf true gesetzt,
 	 */
 	public void editPortEntry() {
-		pOld = new Port(portChoiceBox.getValue());
-		pOld.createValidPort(jfList.searchValueByName(jfList.getPortsArray(), pOld.getName(), "port"));
-		portNameTField.setText(pOld.getName());
-		portAddrTField.setText(pOld.getPort());
-		setPortEditActiv(true);
+		if(isPortChoiceMade) {
+			pOld = new Port(portComboBox.getValue());
+			pOld.createValidPort(jfList.searchValueByName(jfList.getPortsArray(), pOld.getName(), "port"));
+			portNameTField.setText(pOld.getName());
+			portAddrTField.setText(pOld.getPort());
+			isPortEditActiv = true;
+		} 
 	}
 
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -136,12 +158,9 @@ public class SampleController implements Initializable {
 			jfList.init();
 			if (isPortEditActiv) {
 				jfList.deletePort(pOld.getName());
-				setPortEditActiv(false);
 			}
 			jfList.addPort(pNew);
-			System.out.println(jfList.getPortsArray());
 			messageLabel.setText(jfList.getExcMessage());
-			updatePortList();
 		} else {
 			messageLabel.setText("Ungültiger Port");
 		}
@@ -150,7 +169,12 @@ public class SampleController implements Initializable {
 	// #########################################################################
 	// ## Server ###############################################################
 	// #########################################################################
-
+	public void disableServerPH() {
+		serverPH.setVisible(false);
+	}
+	public void enableServerPH() {
+		serverPH.setVisible(true);
+	}
 	/**
 	 * Überprüft ob in allen Eingabefeldern Werte geschrieben wurden. Wenn ja,
 	 * erzeuge einen neuen Servernamen, hole den Text aus dem Eingabefeld. Füge alle
@@ -182,76 +206,61 @@ public class SampleController implements Initializable {
 		ipAddr1TField.clear();
 		ipAddr2TField.clear();
 		ipAddr3TField.clear();
+		updateServerList();
+		enableServerPH();
 	}
 
 	/**
 	 * Aktualisiere den Inhalt der Server-ChoiceBox.
 	 */
-	public void updateServerList() {
+	private void updateServerList() {
 		jfList.saveServerValuesInAList();
-		serverChoiceBox.setItems(jfList.getServerNameList());
+		serverComboBox.setItems(jfList.getServerNameList());
+		isServerEditActiv = false;
 	}
 
+	public void setServerChoiceMade() {
+		isServerChoiceMade = true;
+	}
+	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Lösche einen Server aus der JSON-Datei.
 	 */
-	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void delServerEntry() {
-		jfList.deleteServer(serverChoiceBox.getValue());
+		if(isServerChoiceMade) {
+			jfList.deleteServer(serverComboBox.getValue());
+		}
 		clearServerField();
-		setServerEditActiv(false);
-		updateServerList();
 	}
 
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 	public void editServerEntry() {
-		sOld = new Server(serverChoiceBox.getValue());
-		sOld.createValidIpWithArrayGetHost(jfList.searchValueByName(jfList.getServerArray(), sOld.getName(), "ip"));
-		serverNameTField.setText(sOld.getName());
-		ipAddr0TField.setText(sOld.getIpArr()[0]);
-		ipAddr1TField.setText(sOld.getIpArr()[1]);
-		ipAddr2TField.setText(sOld.getIpArr()[2]);
-		ipAddr3TField.setText(sOld.getIpArr()[3]);
-		setServerEditActiv(true);
-		
+		if(isServerChoiceMade) {
+			sOld = new Server(serverComboBox.getValue());
+			sOld.createValidIpWithArrayGetHost(jfList.searchValueByName(jfList.getServerArray(), sOld.getName(), "ip"));
+			serverNameTField.setText(sOld.getName());
+			ipAddr0TField.setText(sOld.getIpArr()[0]);
+			ipAddr1TField.setText(sOld.getIpArr()[1]);
+			ipAddr2TField.setText(sOld.getIpArr()[2]);
+			ipAddr3TField.setText(sOld.getIpArr()[3]);
+			isServerEditActiv = true;
+		} 
 	}
 
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void saveServerEntry() {
 		if (isSAddrFieldValid()) {
 			jfList.init();
-			if (isServerEditActiv()) {
+			if (isServerEditActiv) {
 				jfList.deleteServer(sOld.getName());
-				setServerEditActiv(false);
 			}
 			jfList.addServer(sNew);
-			updateServerList();
-			System.out.println(jfList.getServerArray());
 			messageLabel.setText(jfList.getExcMessage());
 		} else {
 			messageLabel.setText("Ungültige IP-Adresse");
 		}
 		clearServerField();
 	}
-
-	// #########################################################################
-	// ## Getter und Setter ####################################################
-	// #########################################################################
-
-	public boolean isPortEditActiv() {
-		return isPortEditActiv;
-	}
-
-	public void setPortEditActiv(boolean editButtonWasPressed) {
-		this.isPortEditActiv = editButtonWasPressed;
-	}
-
-	public boolean isServerEditActiv() {
-		return isServerEditActiv;
-	}
-
-	public void setServerEditActiv(boolean isServerEditActiv) {
-		this.isServerEditActiv = isServerEditActiv;
-	}
+	
+	
 }
