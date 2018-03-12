@@ -12,7 +12,7 @@ import tools.JSONFileContentInAList;
 import tools.Port;
 import tools.Server;
 
-public class SampleController implements Initializable {
+public class ViewController implements Initializable {
 
 	private JSONFileContentInAList jfList = new JSONFileContentInAList();
 
