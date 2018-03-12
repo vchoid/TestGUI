@@ -123,7 +123,7 @@
                      <children>
                         <Button fx:id="delPortButton" layoutX="111.0" layoutY="35.0" mnemonicParsing="false" onAction="#delportEntry" text="Löschen" AnchorPane.leftAnchor="111.0" AnchorPane.topAnchor="35.0" />
                         <Button fx:id="editPortButton" layoutX="10.0" layoutY="50.0" mnemonicParsing="false" onAction="#editPortEntry" text="Bearbeiten" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="35.0" />
-                        <ComboBox fx:id="portComboBox" layoutY="27.0" onAction="#setPortChoice" onInputMethodTextChanged="#disablePortPH" onShowing="#disablePortPH" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ComboBox fx:id="portComboBox" layoutY="27.0" onAction="#addPortValuesFromComboToTFields" onInputMethodTextChanged="#disablePortPH" onShowing="#disablePortPH" prefWidth="170.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <Label fx:id="portPH" alignment="CENTER" layoutX="30.0" onMouseEntered="#disablePortPH" prefWidth="110.0" text="Wähle ein Port" textAlignment="CENTER" textFill="#00000080" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="5.0">
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
