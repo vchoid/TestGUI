@@ -1,5 +1,6 @@
 package tools;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ServerPortTableContent {
@@ -14,16 +15,14 @@ public class ServerPortTableContent {
 	// ## Getter und Setter ####################################################
 	// #########################################################################
 	
-	public ServerPortTableContent(StringProperty port, StringProperty server, StringProperty isConnected,
-			StringProperty createdON, StringProperty updatedON) {
-		super();
-		this.port = port;
-		this.server = server;
-		this.isConnected = isConnected;
-		this.createdON = createdON;
-		this.updatedON = updatedON;
+	public ServerPortTableContent(String port, String server, String isConnected,
+			String createdON, String updatedON) {
+		this.port = new SimpleStringProperty(port);
+		this.server = new SimpleStringProperty(server);
+		this.isConnected = new SimpleStringProperty(isConnected);
+		this.createdON = new SimpleStringProperty(createdON);
+		this.updatedON = new SimpleStringProperty(updatedON);
 	}
-	
 	
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getPort() {

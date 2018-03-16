@@ -3,24 +3,40 @@ package application;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import tools.JSONFileContentInAList;
 import tools.Port;
 import tools.Server;
+import tools.ServerPortTableContent;
 
 public class ViewController implements Initializable {
 
 	private JSONFileContentInAList jfList = new JSONFileContentInAList();
 
-	// << Exception Ausgabe >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	// << Table Content >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
-	private Label messageLabel;
+	private TableView<ServerPortTableContent> serverPortConTable;
+	@FXML
+	private TableColumn<ServerPortTableContent, String> server;
+	@FXML
+	private TableColumn<ServerPortTableContent, String> port;
+	@FXML
+	private TableColumn<ServerPortTableContent, String> createdON;
+	@FXML
+	private TableColumn<ServerPortTableContent, String> isConnected;
+	@FXML
+	private TableColumn<ServerPortTableContent, String> updatedON;
+	
+	private ObservableList<ServerPortTableContent> content;
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private TextField serverNameTField;
@@ -57,6 +73,10 @@ public class ViewController implements Initializable {
 	private Port pNew;
 	private boolean isPortEditActiv;
 	private boolean isPortChoose;
+	
+	// << Exception Ausgabe >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	@FXML
+	private Label messageLabel;
 
 	// #########################################################################
 	// ## Init #################################################################
@@ -279,5 +299,8 @@ public class ViewController implements Initializable {
 		}
 		clearServerField();
 	}
+	// #########################################################################
+	// ## Table ################################################################
+	// #########################################################################
 
 }
