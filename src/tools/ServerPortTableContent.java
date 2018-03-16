@@ -8,14 +8,16 @@ public class ServerPortTableContent {
 	private StringProperty port;
 	private StringProperty server;
 	private StringProperty createdON;
-	
+	private StringProperty connection;
+	private StringProperty updatedON;
 
 	
-	public ServerPortTableContent(String port, String server, String isConnected,
-			String createdON, String updatedON) {
-		this.port = new SimpleStringProperty(port);
-		this.server = new SimpleStringProperty(server);
-		this.createdON = new SimpleStringProperty(createdON);
+	public ServerPortTableContent(ServerPortConnection sp, ServerPortConnectionQuery spQuery) {
+		this.port = new SimpleStringProperty(sp.getPort());
+		this.server = new SimpleStringProperty(sp.getServer());
+		this.createdON = new SimpleStringProperty(sp.getCreatedON());
+		this.connection = new SimpleStringProperty(spQuery.getIsConnected());
+		this.updatedON = new SimpleStringProperty(spQuery.getUpdatedON());
 	}
 	
 	// #########################################################################
@@ -25,33 +27,22 @@ public class ServerPortTableContent {
 	public String getPort() {
 		return port.get();
 	}
-	public void setPort(String port) {
-		this.port.set(port);
-	}
-	public StringProperty portProperty() {
-		return port;
-	}
-
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getServer() {
 		return server.get();
-	}
-	public void setServer(String server) {
-		this.server.set(server);
-	}
-	public StringProperty serverProperty() {
-		return server;
 	}
 	// << CreatedON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getCreatedON() {
 		return createdON.get();
 	}
+	// << connceted >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public String getConnection() {
+		return connection.get();
+	}
+	// << updatedON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public String getUpdatedON() {
+		return updatedON.get();
+	}
 	
-	public void setCreatedON(String createdON) {
-		this.createdON.set(createdON);
-	}
-	public StringProperty createdONProperty() {
-		return createdON;
-	}
 	
 }

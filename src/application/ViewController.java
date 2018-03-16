@@ -16,6 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import tools.JSONFileContentInAList;
 import tools.Port;
 import tools.Server;
+import tools.ServerPortConnection;
+import tools.ServerPortConnectionQuery;
 import tools.ServerPortTableContent;
 
 public class ViewController implements Initializable {
@@ -37,7 +39,7 @@ public class ViewController implements Initializable {
 	@FXML
 	private TableColumn<ServerPortTableContent, String> updatedON;
 	
-	private ObservableList<ServerPortTableContent> content;
+	private ObservableList<ServerPortTableContent> content = FXCollections.observableArrayList();
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private TextField serverNameTField;
@@ -58,7 +60,7 @@ public class ViewController implements Initializable {
 	private Server sOld;
 	private Server sNew;
 	private boolean isServerEditActiv;
-	private boolean isServerChoiceMade;
+	private boolean isServerChoose;
 
 	// << Port >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
@@ -84,7 +86,6 @@ public class ViewController implements Initializable {
 	// #########################################################################
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		fillContent();
 		jfList.init();
 		updatePortList();
 		updateServerList();
@@ -259,14 +260,14 @@ public class ViewController implements Initializable {
 	}
 
 	public void setServerChoiceMade() {
-		isServerChoiceMade = true;
+		isServerChoose = true;
 	}
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Lösche einen Server aus der JSON-Datei.
 	 */
 	public void delServerEntry() {
-		if (isServerChoiceMade) {
+		if (isServerChoose) {
 			jfList.deleteServer(serverComboBox.getValue());
 		}
 		clearServerField();
@@ -274,7 +275,7 @@ public class ViewController implements Initializable {
 
 	// << Edit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public void editServerEntry() {
-		if (isServerChoiceMade) {
+		if (isServerChoose) {
 			sOld = new Server(serverComboBox.getValue());
 			sOld.createValidIpWithArrayGetHost(jfList.searchValueByName(
 					jfList.getServerArray(), sOld.getName(), "ip"));
@@ -304,34 +305,23 @@ public class ViewController implements Initializable {
 	// #########################################################################
 	// ## Table ################################################################
 	// #########################################################################
-	public void fillContent() {
+	private void setTableContent() {
 		server.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("server"));
 		port.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("port"));
-		isConnected.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("isConnected"));
 		createdON.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("createdON"));
+		isConnected.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("connection"));
 		updatedON.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("updatedON"));
-		content = FXCollections.observableArrayList(
-				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
-				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
-				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
-				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
-				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
-				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
-				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
-				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
-				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
-				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
-				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
-				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
-				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
-				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
-				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
-				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
-				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
-				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
-				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
-				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018")
-				);
 		serverPortConTable.setItems(content);
 	}
+	public void addCon() {
+		if(isServerChoose && isPortChoose) {
+			ServerPortConnection sp1 = new ServerPortConnection(serverComboBox.getValue(), portComboBox.getValue());
+			ServerPortConnectionQuery spQ1 = new ServerPortConnectionQuery("True"); 
+			ServerPortTableContent c = new ServerPortTableContent(sp1, spQ1);
+			content.add(c);
+			setTableContent();
+		}
+		
+	}
+	
 }

@@ -17,7 +17,7 @@ public class DateStamp {
 	private String date = day + "." + month + "." + year;
 	private String time = hour + ":" + min + ":" + sec;
 
-	private String dateTimeStamp = date + " (" + time + " Uhr)";
+	private String dateTimeStamp = date + " [" + time + "]";
 
 	
 	/**

@@ -29,9 +29,9 @@
               <columns>
                 <TableColumn fx:id="server" maxWidth="350.0" minWidth="150.0" prefWidth="200.0" text="Server" />
                 <TableColumn fx:id="port" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Port" />
-                  <TableColumn fx:id="createdON" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Erstellt am" />
-                  <TableColumn fx:id="isConnected" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Verbindung" />
-                  <TableColumn fx:id="updatedON" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Aktualisiert am" />
+                  <TableColumn fx:id="createdON" maxWidth="250.0" minWidth="50.0" prefWidth="100.0" text="Erstellt am" />
+                  <TableColumn fx:id="isConnected" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" text="Verbindung" />
+                  <TableColumn fx:id="updatedON" maxWidth="250.0" minWidth="50.0" prefWidth="100.0" text="Aktualisiert am" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -101,7 +101,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="26.0" prefWidth="142.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="638.0" text="+" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Button mnemonicParsing="false" onAction="#addCon" prefWidth="638.0" text="+" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <Button disable="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="27.0" text="&gt;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <Button disable="true" layoutX="117.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="27.0" text="&lt;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
