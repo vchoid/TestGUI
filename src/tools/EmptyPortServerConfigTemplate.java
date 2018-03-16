@@ -2,13 +2,13 @@ package tools;
 
 public class EmptyPortServerConfigTemplate {
 
-	private final String portServerTemplate = "{\"connectionConfig\":[],\"ports\":[]}";
+	private final String portServerTemplate = "{\"connection\":[]}";
 	
 	private String message;
 	
 	public String getPortServerTemplate() {
-		System.out.print("Server_Ports.json ");
-		setMessage("Server_Ports.json angelegt");
+		System.out.print("Server_PortsConfig.json ");
+		setMessage("Server_PortsConfig.json angelegt");
 		return portServerTemplate;
 	}
 	

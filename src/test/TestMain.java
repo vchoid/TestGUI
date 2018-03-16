@@ -1,13 +1,13 @@
 package test;
 
-import tools.JSONFileContentHandler;
-import tools.Port;
-import tools.Server;
+import java.time.LocalDateTime;
+
+import tools.JSONFileConnConfigINI;
 
 public class TestMain {
 	public static void main(String[] args) {
-		JSONFileContentHandler jf = new JSONFileContentHandler();
-		jf.init();
+//		JSONFileContentHandler jf = new JSONFileContentHandler();
+//		jf.init();
 //		Port p = new Port("test");
 //		p.createValidPort("1234");
 //		jf.addPort(p);
@@ -22,6 +22,9 @@ public class TestMain {
 		
 //		System.out.println(jf.searchValueByName(jf.getServerArray(), "Jetzt", "ip"));
 		
+//		JSONFileConnConfigINI j = new JSONFileConnConfigINI();
+//		j.init();
+		System.out.println(LocalDateTime.now());
 		
 	}
 }

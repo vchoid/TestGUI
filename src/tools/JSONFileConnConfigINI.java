@@ -17,18 +17,16 @@ public class JSONFileConnConfigINI {
 	// --> Datei-Handling ------------------------------------------------------
 	private Gson gson = new Gson();
 	private final static String FILE = System.getProperty("user.dir")
-			+ "/src/resources/Server_Port_ConnectionConfig.JSON"
-			+ ""
-			+ "";
+			+ "/src/resources/Server_Port_ConnectionConfig.JSON";
 	private BufferedReader reader;
 	private FileInputStream input;
 	private BufferedWriter writer;
 	private FileOutputStream out;
 	// --> Content-Handling ----------------------------------------------------
 	private JsonObject jsonObj;
-	private EmptyPortServerTemplate emptyPSTemplate = new EmptyPortServerTemplate();
-	private JsonArray portsArray;
-	private JsonArray serverArray;
+	private EmptyPortServerConfigTemplate emptyPSTemplate = new EmptyPortServerConfigTemplate();
+	private JsonArray allConnJArray;
+	private JsonArray oneConnJArray;
 
 	// --> Message-Handling ----------------------------------------------------
 	private String excMessage;
@@ -49,7 +47,6 @@ public class JSONFileConnConfigINI {
 	 */
 	public void init() {
 		readFromFileParseFileAsJSONObject(getFile());
-		setPortServerValuesInAList();
 	}
 
 	/**
@@ -62,6 +59,7 @@ public class JSONFileConnConfigINI {
 			reader = new BufferedReader(new InputStreamReader(input));
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
+			setAllConnJArray(getJsonObj().getAsJsonArray("connections"));
 			reader.close();
 			System.out.println("reader ...geschlossen!");
 		} catch (IOException e) {
@@ -96,17 +94,7 @@ public class JSONFileConnConfigINI {
 		}
 	}
 	
-	/**
-	 * Speichert Werte aus den Server- und Port-Arrays aus der JSON-Datei in
-	 * Arrays.
-	 * 
-	 */
-	private void setPortServerValuesInAList() {
-		// Ports-Array aus JSONFile speichern
-		setPortsArray(getJsonObj().getAsJsonArray("ports"));
-		// Server-Array aus JSONFile speichern
-		setServerArray(getJsonObj().getAsJsonArray("server"));
-	}
+	
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################
@@ -136,17 +124,11 @@ public class JSONFileConnConfigINI {
 		return FILE;
 	}
 	// --> Array-Handling ------------------------------------------------------
-	public JsonArray getPortsArray() {
-		return portsArray;
+	public JsonArray getAllConnJArray() {
+		return allConnJArray;
 	}
-	public void setPortsArray(JsonArray portsArray) {
-		this.portsArray = portsArray;
-	}
-	public JsonArray getServerArray() {
-		return serverArray;
-	}
-	public void setServerArray(JsonArray serverArray) {
-		this.serverArray = serverArray;
+	public void setAllConnJArray(JsonArray allConnJArray) {
+		this.allConnJArray = allConnJArray;
 	}
 	// --> Message-Handling ----------------------------------------------------
 	public String getExcMessage() {
