@@ -2,16 +2,29 @@
 	{
 		"server": "PreProd-Server",
 		"port": "Tomcat",
-		"isConnected": false
-	},
-	{
-		"server": "Staging-Server",
-		"port": "Tomcat",
-		"isConnected": false
+		"createdON" : "",
+		"isConnected": true,
+		"updatedON" :""
 	},
 	{
 		"server": "PreProd-Server",
-		"port": "Tomcat",
-		"isConnected": false
+		"port": "SE",
+		"createdON" : "",
+		"isConnected": true,
+		"updatedON" :""
+	},
+	{
+		"server": "PreProd-Server",
+		"port": "FirstSpirit",
+		"createdON" : "",
+		"isConnected": true,
+		"updatedON" :""
+	},
+	{
+		"server": "PreProd-Server",
+		"port": "Remote",
+		"createdON" : "",
+		"isConnected": false,
+		"updatedON" :""
 	}
 ]

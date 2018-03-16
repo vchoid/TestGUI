@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ViewController">
+<BorderPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ViewController">
    <bottom>
       <AnchorPane prefHeight="17.0" prefWidth="386.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,11 +23,13 @@
       </AnchorPane>
    </bottom>
    <top>
-      <TableView maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefHeight="250.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+      <TableView minHeight="-Infinity" prefHeight="250.0" prefWidth="850.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="Server" />
-          <TableColumn prefWidth="75.0" text="Port" />
-            <TableColumn prefWidth="75.0" text="Connection" />
+          <TableColumn maxWidth="350.0" minWidth="150.0" prefWidth="200.0" text="Server" />
+          <TableColumn maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Port" />
+            <TableColumn maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Erstellt am" />
+            <TableColumn maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Verbindung" />
+            <TableColumn maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="Aktualisiert am" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
