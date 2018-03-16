@@ -3,7 +3,7 @@ package application;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import tools.JSONFileContentInAList;
 import tools.Port;
 import tools.Server;
@@ -83,6 +84,7 @@ public class ViewController implements Initializable {
 	// #########################################################################
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		fillContent();
 		jfList.init();
 		updatePortList();
 		updateServerList();
@@ -302,5 +304,34 @@ public class ViewController implements Initializable {
 	// #########################################################################
 	// ## Table ################################################################
 	// #########################################################################
-
+	public void fillContent() {
+		server.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("server"));
+		port.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("port"));
+		isConnected.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("isConnected"));
+		createdON.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("createdON"));
+		updatedON.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("updatedON"));
+		content = FXCollections.observableArrayList(
+				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
+				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
+				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
+				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
+				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
+				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
+				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
+				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
+				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
+				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
+				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
+				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
+				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
+				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
+				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
+				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018"),
+				new ServerPortTableContent("Tomcat", "PreProd", "true", "03-12-2018", "03-14-2018"),
+				new ServerPortTableContent("Remote", "Staging", "false", "03-12-2018", "03-12-2018"),
+				new ServerPortTableContent("FirstSpirit", "Local", "true", "03-10-2018", "03-11-2018"),
+				new ServerPortTableContent("Tomcat", "Auslieferung", "true", "03-09-2018", "03-12-2018")
+				);
+		serverPortConTable.setItems(content);
+	}
 }
