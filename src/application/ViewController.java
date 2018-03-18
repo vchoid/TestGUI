@@ -103,6 +103,7 @@ public class ViewController implements Initializable {
 	}
 	public void enablePortPH() {
 		portPH.setVisible(true);
+		isPortChoose = false;
 	}
 	/**
 	 * Überprüft ob die die Felder nicht leer sind. Wenn ja dann lege einen
@@ -211,6 +212,7 @@ public class ViewController implements Initializable {
 	}
 	public void enableServerPH() {
 		serverPH.setVisible(true);
+		isServerChoose = false;
 	}
 	/**
 	 * Überprüft ob in allen Eingabefeldern Werte geschrieben wurden. Wenn ja,
@@ -313,7 +315,7 @@ public class ViewController implements Initializable {
 		updatedON.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("updatedON"));
 		serverPortConTable.setItems(content);
 	}
-	public void addCon() {
+	public void addConfig() {
 		if(isServerChoose && isPortChoose) {
 			ServerPortConnection sp1 = new ServerPortConnection(serverComboBox.getValue(), portComboBox.getValue());
 			ServerPortConnectionQuery spQ1 = new ServerPortConnectionQuery("True"); 
@@ -321,7 +323,8 @@ public class ViewController implements Initializable {
 			content.add(c);
 			setTableContent();
 		}
-		
+		clearPortField();
+		clearServerField();
 	}
 	
 }
