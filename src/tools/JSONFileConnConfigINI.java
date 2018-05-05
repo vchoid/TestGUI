@@ -17,7 +17,7 @@ public class JSONFileConnConfigINI {
 	// --> Datei-Handling ------------------------------------------------------
 	private Gson gson = new Gson();
 	private final static String FILE = System.getProperty("user.dir")
-			+ "/src/resources/Server_Port_ConnectionConfig.JSON";
+			+ "/Users/chris/workspace/TestGUI/src/resources/Server_Ports.JSON";
 	private BufferedReader reader;
 	private FileInputStream input;
 	private BufferedWriter writer;

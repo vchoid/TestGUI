@@ -2,6 +2,7 @@ package tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,8 +17,7 @@ public class JSONFileInitialisator {
 
 	// --> Datei-Handling ------------------------------------------------------
 	private Gson gson = new Gson();
-	private final static String FILE = System.getProperty("user.dir")
-			+ "/src/resources/Server_Ports.JSON";
+	private File f;
 	private BufferedReader reader;
 	private FileInputStream input;
 	private BufferedWriter writer;
@@ -46,25 +46,27 @@ public class JSONFileInitialisator {
 	 * </p>
 	 */
 	public void init() {
-		readFromFileParseFileAsJSONObject(getFile());
+		readFromFileParseFileAsJSONObject(getFile().toString());
 		setPortServerValuesInAList();
 	}
 
+	public void setFile(File f) {
+		this.f = f;
+	}
+	
 	/**
 	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
 	 */
 	public void readFromFileParseFileAsJSONObject(String file) {
 		// Datei über einen Stream einlesen
 		try {
-			input = new FileInputStream(file);
+			input = new FileInputStream(f);
 			reader = new BufferedReader(new InputStreamReader(input));
 			// Datei als JSON-Objekt einlesen
 			setJsonObj(gson.fromJson(reader, JsonObject.class));
 			reader.close();
 			System.out.println("reader ...geschlossen!");
 		} catch (IOException e) {
-			addEmptyJsonFileTemplate();
-			init();
 		}
 	}
 	
@@ -130,8 +132,8 @@ public class JSONFileInitialisator {
 		this.jsonObj = json;
 	}
 	// --> Datei-Handling ------------------------------------------------------
-	public static String getFile() {
-		return FILE;
+	public File getFile() {
+		return f;
 	}
 	// --> Array-Handling ------------------------------------------------------
 	public JsonArray getPortsArray() {

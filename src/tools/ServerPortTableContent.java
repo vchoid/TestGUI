@@ -39,6 +39,7 @@ public class ServerPortTableContent {
 	public String getConnection() {
 		return connection.get();
 	}
+
 	// << updatedON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getUpdatedON() {
 		return updatedON.get();

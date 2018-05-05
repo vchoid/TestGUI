@@ -22,16 +22,12 @@ import com.google.gson.JsonObject;
  * <ul>
  * <li>Einen Porteintrag hinzuf�gen:
  * <b>{@link #addPort(String, String)}</b></li>
- * <li>Einen Porteintrag bearbeiten:
- * <b>{@link #editPort(String, String, String)}</b></li>
  * <li>Einen Porteintrag l�schen: <b>{@link #deletePort(String)}</b></li>
  * <li>Einen Servereintrag via Host hinzuf�gen:
  * <b>{@link #addServerViaHost(String, String)}</b></li>
  * <li>Einen Servereintrag via IP hinzuf�gen:
  * <b>{@link #addServerViaIP(String, String)}</b></li>
  * <li>Einen Servereintrag bearbeiten:
- * <b>{@link #editServer(String, String, String)}</b></li>
- * <li>Einen Servereintrag löschen: <b>{@link #deleteServer(String)}</b></li>
  * </ul>
  * </p>
  * 

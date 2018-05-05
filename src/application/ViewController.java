@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -7,12 +8,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import tools.JSONFileContentInAList;
 import tools.Port;
 import tools.Server;
@@ -40,6 +45,10 @@ public class ViewController implements Initializable {
 	private TableColumn<ServerPortTableContent, String> updatedON;
 	
 	private ObservableList<ServerPortTableContent> content = FXCollections.observableArrayList();
+	@FXML
+	private Label intervalPH;
+	@FXML
+	private Slider intervallSlider;
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private TextField serverNameTField;
@@ -53,8 +62,6 @@ public class ViewController implements Initializable {
 	private TextField ipAddr3TField;
 	@FXML
 	private ComboBox<String> serverComboBox;
-	@FXML
-	private Label serverPH;
 
 	private String ipTFieldConcat;
 	private Server sOld;
@@ -69,8 +76,6 @@ public class ViewController implements Initializable {
 	private TextField portAddrTField;
 	@FXML
 	private ComboBox<String> portComboBox;
-	@FXML
-	Label portPH;
 
 	private Port pOld;
 	private Port pNew;
@@ -80,12 +85,16 @@ public class ViewController implements Initializable {
 	// << Exception Ausgabe >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private Label messageLabel;
-
 	// #########################################################################
 	// ## Init #################################################################
 	// #########################################################################
+	
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Alert a = new Alert(AlertType.INFORMATION, "Lade eine Einstellungsdatei");
+		a.showAndWait();
+		jfList.setFile(loadFile());
 		jfList.init();
 		updatePortList();
 		updateServerList();
@@ -95,16 +104,15 @@ public class ViewController implements Initializable {
 		clearPortField();
 		clearServerField();
 	}
+	
+	public File loadFile() {
+		FileChooser fc = new FileChooser();
+		return fc.showOpenDialog(null);
+	}
 	// #########################################################################
 	// ## Port #################################################################
 	// #########################################################################
-	public void disablePortPH() {
-		portPH.setVisible(false);
-	}
-	public void enablePortPH() {
-		portPH.setVisible(true);
-		isPortChoose = false;
-	}
+	
 	/**
 	 * Überprüft ob die die Felder nicht leer sind. Wenn ja dann lege einen
 	 * neuen Portnamen an. Lege einen einen neuen Port an, welcher beim erzeugen
@@ -129,7 +137,6 @@ public class ViewController implements Initializable {
 	public void clearPortField() {
 		portNameTField.clear();
 		portAddrTField.clear();
-		enablePortPH();
 		updatePortList();
 		setPortFieldEditable(true);
 	}
@@ -207,13 +214,6 @@ public class ViewController implements Initializable {
 	// #########################################################################
 	// ## Server ###############################################################
 	// #########################################################################
-	public void disableServerPH() {
-		serverPH.setVisible(false);
-	}
-	public void enableServerPH() {
-		serverPH.setVisible(true);
-		isServerChoose = false;
-	}
 	/**
 	 * Überprüft ob in allen Eingabefeldern Werte geschrieben wurden. Wenn ja,
 	 * erzeuge einen neuen Servernamen, hole den Text aus dem Eingabefeld. Füge
@@ -249,7 +249,6 @@ public class ViewController implements Initializable {
 		ipAddr2TField.clear();
 		ipAddr3TField.clear();
 		updateServerList();
-		enableServerPH();
 	}
 
 	/**
