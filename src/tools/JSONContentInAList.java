@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class JSONFileContentInAList extends JSONFileContentHandler{
+public class JSONContentInAList extends JSONContentHandler{
 
 	// #########################################################################
 	// ## Variablen 														  	 #
@@ -24,7 +24,7 @@ public class JSONFileContentInAList extends JSONFileContentHandler{
 	// ## Initialisieren 													 #
 	// #########################################################################
 	
-	public JSONFileContentInAList() {
+	public JSONContentInAList() {
 //		saveLists();
 	}
 	

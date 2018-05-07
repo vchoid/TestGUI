@@ -24,9 +24,10 @@ public class JSONFileInitialisator {
 	private FileOutputStream out;
 	// --> Content-Handling ----------------------------------------------------
 	private JsonObject jsonObj;
-	private EmptyPortServerTemplate emptyPSTemplate = new EmptyPortServerTemplate();
+	private JsonArray settingsArray;
 	private JsonArray portsArray;
 	private JsonArray serverArray;
+	private JsonArray queryArray;
 
 	// --> Message-Handling ----------------------------------------------------
 	private String excMessage;
@@ -41,19 +42,19 @@ public class JSONFileInitialisator {
 	 * <b>Methoden:</b>
 	 * <ul>
 	 * <li>Speichert Port und Server in jeweils ein JSONArray:
-	 * <b>{@link #setPortServerValuesInAList()}</b></li>
+	 * <b>{@link #setValuesInAList()}</b></li>
 	 * </ul>
 	 * </p>
 	 */
 	public void init() {
 		readFromFileParseFileAsJSONObject(getFile().toString());
-		setPortServerValuesInAList();
+		setValuesInAList();
 	}
 
 	public void setFile(File f) {
 		this.f = f;
 	}
-	
+
 	/**
 	 * Ließt Datei ein und speichern den Inhalt in ein {@link JsonObject}}.
 	 */
@@ -69,24 +70,16 @@ public class JSONFileInitialisator {
 		} catch (IOException e) {
 		}
 	}
-	
+
 	/**
-	 * Vorlageninhalt für leere JSON-Datei.
-	 */
-	private void addEmptyJsonFileTemplate() {
-		writeInFile(emptyPSTemplate.getPortServerTemplate());
-		setExcMessage(emptyPSTemplate.getMessage());
-	}
-	/**
-	 * Schreibt Inhalt(Parameter content) in der JSON-Datei und schließt den
-	 * Writer.
+	 * Schreibt Inhalt(Parameter content) in der JSON-Datei und schließt den Writer.
 	 */
 	public void writeInFile(String content) {
 		try {
 			out = new FileOutputStream(getFile());
 			writer = new BufferedWriter(new OutputStreamWriter(out));
 			writer.write(content);
-			// TODO l�schen!
+			// TODO löschen!
 			setExcMessage(" ...gespeichert");
 			System.out.println("...gespeichert");
 			writer.close();
@@ -95,17 +88,20 @@ public class JSONFileInitialisator {
 			setExcMessage(e.toString());
 		}
 	}
-	
+
 	/**
-	 * Speichert Werte aus den Server- und Port-Arrays aus der JSON-Datei in
-	 * Arrays.
+	 * Speichert Werte aus den Server- und Port-Arrays aus der JSON-Datei in Arrays.
 	 * 
 	 */
-	private void setPortServerValuesInAList() {
+	private void setValuesInAList() {
+		// Settings-Array aus JSONFile speichern
+		setSettingsArray(getJsonObj().getAsJsonArray("settings"));
 		// Ports-Array aus JSONFile speichern
 		setPortsArray(getJsonObj().getAsJsonArray("ports"));
 		// Server-Array aus JSONFile speichern
 		setServerArray(getJsonObj().getAsJsonArray("server"));
+		// Query_array aus JSONFile speichern
+		setQueryArray(getJsonObj().getAsJsonArray("querys"));
 	}
 	// #########################################################################
 	// ## Getter und Setter ####################################################
@@ -115,43 +111,71 @@ public class JSONFileInitialisator {
 	public FileInputStream getInput() {
 		return input;
 	}
+
 	public BufferedReader getReader() {
 		return reader;
 	}
+
 	public FileOutputStream getOut() {
 		return out;
 	}
+
 	public BufferedWriter getWriter() {
 		return writer;
 	}
+
 	// --> JSON-Handling -------------------------------------------------------
 	public JsonObject getJsonObj() {
 		return jsonObj;
 	}
+
 	public void setJsonObj(JsonObject json) {
 		this.jsonObj = json;
 	}
+
 	// --> Datei-Handling ------------------------------------------------------
 	public File getFile() {
 		return f;
 	}
+
 	// --> Array-Handling ------------------------------------------------------
 	public JsonArray getPortsArray() {
 		return portsArray;
 	}
+
 	public void setPortsArray(JsonArray portsArray) {
 		this.portsArray = portsArray;
 	}
+
 	public JsonArray getServerArray() {
 		return serverArray;
 	}
+
 	public void setServerArray(JsonArray serverArray) {
 		this.serverArray = serverArray;
 	}
+
+	public JsonArray getSettingsArray() {
+		return settingsArray;
+	}
+
+	public void setSettingsArray(JsonArray settingsArray) {
+		this.settingsArray = settingsArray;
+	}
+
+	public JsonArray getQueryArray() {
+		return queryArray;
+	}
+
+	public void setQueryArray(JsonArray queryArray) {
+		this.queryArray = queryArray;
+	}
+
 	// --> Message-Handling ----------------------------------------------------
 	public String getExcMessage() {
 		return excMessage;
 	}
+
 	public void setExcMessage(String excMessage) {
 		this.excMessage = excMessage;
 	}

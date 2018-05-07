@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -18,18 +20,22 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-import tools.JSONFileContentInAList;
+import tools.JSONContentInAList;
 import tools.Port;
 import tools.Server;
 import tools.ServerPortConnection;
 import tools.ServerPortConnectionQuery;
 import tools.ServerPortTableContent;
 
+/**
+ * 
+ * @author chris
+ *
+ */
 public class ViewController implements Initializable {
 
-	private JSONFileContentInAList jfList = new JSONFileContentInAList();
+	private JSONContentInAList jfList = new JSONContentInAList();
 
-	
 	// << Table Content >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private TableView<ServerPortTableContent> serverPortConTable;
@@ -43,12 +49,13 @@ public class ViewController implements Initializable {
 	private TableColumn<ServerPortTableContent, String> isConnected;
 	@FXML
 	private TableColumn<ServerPortTableContent, String> updatedON;
-	
+
 	private ObservableList<ServerPortTableContent> content = FXCollections.observableArrayList();
 	@FXML
 	private Label intervalPH;
 	@FXML
 	private Slider intervallSlider;
+	private Service<Object> ncService;
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private TextField serverNameTField;
@@ -81,15 +88,14 @@ public class ViewController implements Initializable {
 	private Port pNew;
 	private boolean isPortEditActiv;
 	private boolean isPortChoose;
-	
+
 	// << Exception Ausgabe >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@FXML
 	private Label messageLabel;
 	// #########################################################################
 	// ## Init #################################################################
 	// #########################################################################
-	
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Alert a = new Alert(AlertType.INFORMATION, "Lade eine Einstellungsdatei");
@@ -104,7 +110,7 @@ public class ViewController implements Initializable {
 		clearPortField();
 		clearServerField();
 	}
-	
+
 	public File loadFile() {
 		FileChooser fc = new FileChooser();
 		return fc.showOpenDialog(null);
@@ -112,18 +118,16 @@ public class ViewController implements Initializable {
 	// #########################################################################
 	// ## Port #################################################################
 	// #########################################################################
-	
+
 	/**
-	 * Überprüft ob die die Felder nicht leer sind. Wenn ja dann lege einen
-	 * neuen Portnamen an. Lege einen einen neuen Port an, welcher beim erzeugen
-	 * validiert wird und ein true oder false zurück gibt. Bei false leere die
-	 * Eingabefelder
+	 * Überprüft ob die die Felder nicht leer sind. Wenn ja dann lege einen neuen
+	 * Portnamen an. Lege einen einen neuen Port an, welcher beim erzeugen validiert
+	 * wird und ein true oder false zurück gibt. Bei false leere die Eingabefelder
 	 * 
 	 * @return
 	 */
 	private boolean isPortFieldNotEmptyAndValid() {
-		if (!portNameTField.getText().isEmpty()
-				|| !portAddrTField.getText().isEmpty()) {
+		if (!portNameTField.getText().isEmpty() || !portAddrTField.getText().isEmpty()) {
 			pNew = new Port(portNameTField.getText());
 			return pNew.createValidPort(portAddrTField.getText());
 		}
@@ -152,19 +156,19 @@ public class ViewController implements Initializable {
 
 	public void addPortValuesFromComboToTFields() {
 		pOld = new Port(portComboBox.getValue());
-		pOld.createValidPort(jfList.searchValueByName(jfList.getPortsArray(),
-				pOld.getName(), "port"));
+		pOld.createValidPort(jfList.searchValueByName(jfList.getPortsArray(), pOld.getName(), "port"));
 		portNameTField.setText(pOld.getName());
 		portAddrTField.setText(pOld.getPort());
 		isPortChoose = true;
 		setPortFieldEditable(false);
 	}
-	
+
 	public void setPortFieldEditable(boolean bool) {
 		portNameTField.setDisable(!bool);
 		portAddrTField.setDisable(!bool);
-		
+
 	}
+
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Löscht einen Port aus der JSON-Datei
@@ -190,13 +194,13 @@ public class ViewController implements Initializable {
 
 	// << Add >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
-	 * Überprüft vor dem Einfügen eines neuen Ports ob die Felder gefüllt sind
-	 * und der Inhalt auch der regEx entspricht. Wenn ja, dann hole die Werte
-	 * aus den Felder und erzeuge ein neues Port-Objekt. Initialisiere dent
-	 * ContentFileHandler. Überprüfe, ob es der Status auf Bearbeiten gesetzt
-	 * wurde. Wenn ja, dann lösche den alten Port und füge den neuen Port in die
-	 * Datei. Wenn nein, dann füge nur den eingebenen Port hinzu. Gib eine
-	 * Nachricht aus und mache eine Update der PortChoiceBox. Leere alle Felder.
+	 * Überprüft vor dem Einfügen eines neuen Ports ob die Felder gefüllt sind und
+	 * der Inhalt auch der regEx entspricht. Wenn ja, dann hole die Werte aus den
+	 * Felder und erzeuge ein neues Port-Objekt. Initialisiere dent
+	 * ContentFileHandler. Überprüfe, ob es der Status auf Bearbeiten gesetzt wurde.
+	 * Wenn ja, dann lösche den alten Port und füge den neuen Port in die Datei.
+	 * Wenn nein, dann füge nur den eingebenen Port hinzu. Gib eine Nachricht aus
+	 * und mache eine Update der PortChoiceBox. Leere alle Felder.
 	 */
 	public void savePortEntry() {
 		if (isPortFieldNotEmptyAndValid()) {
@@ -211,27 +215,25 @@ public class ViewController implements Initializable {
 		}
 		clearPortField();
 	}
+
 	// #########################################################################
 	// ## Server ###############################################################
 	// #########################################################################
 	/**
 	 * Überprüft ob in allen Eingabefeldern Werte geschrieben wurden. Wenn ja,
-	 * erzeuge einen neuen Servernamen, hole den Text aus dem Eingabefeld. Füge
-	 * alle Eingabefelder für die IP-Adresse zusammen zu einer IP. Erstelle eine
-	 * neue IP. Wenn es sich um eine valide IP handelt gibt diese zurück und ein
-	 * true. Automatisch wird ein Ip-Array erzeugt. Bei false leere alle Felder.
+	 * erzeuge einen neuen Servernamen, hole den Text aus dem Eingabefeld. Füge alle
+	 * Eingabefelder für die IP-Adresse zusammen zu einer IP. Erstelle eine neue IP.
+	 * Wenn es sich um eine valide IP handelt gibt diese zurück und ein true.
+	 * Automatisch wird ein Ip-Array erzeugt. Bei false leere alle Felder.
 	 * 
 	 * @return true wenn Feld nicht leer und gültige IP-Adresse
 	 */
 	private boolean isSAddrFieldValid() {
-		if (!serverNameTField.getText().isEmpty()
-				|| !ipAddr0TField.getText().isEmpty()
-				|| !ipAddr1TField.getText().isEmpty()
-				|| !ipAddr2TField.getText().isEmpty()
+		if (!serverNameTField.getText().isEmpty() || !ipAddr0TField.getText().isEmpty()
+				|| !ipAddr1TField.getText().isEmpty() || !ipAddr2TField.getText().isEmpty()
 				|| !ipAddr3TField.getText().isEmpty()) {
 			sNew = new Server(serverNameTField.getText());
-			ipTFieldConcat = ipAddr0TField.getText() + "."
-					+ ipAddr1TField.getText() + "." + ipAddr2TField.getText()
+			ipTFieldConcat = ipAddr0TField.getText() + "." + ipAddr1TField.getText() + "." + ipAddr2TField.getText()
 					+ "." + ipAddr3TField.getText();
 			return sNew.createValidIpWithArrayGetHost(ipTFieldConcat);
 		}
@@ -263,6 +265,7 @@ public class ViewController implements Initializable {
 	public void setServerChoiceMade() {
 		isServerChoose = true;
 	}
+
 	// << Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Lösche einen Server aus der JSON-Datei.
@@ -278,8 +281,7 @@ public class ViewController implements Initializable {
 	public void editServerEntry() {
 		if (isServerChoose) {
 			sOld = new Server(serverComboBox.getValue());
-			sOld.createValidIpWithArrayGetHost(jfList.searchValueByName(
-					jfList.getServerArray(), sOld.getName(), "ip"));
+			sOld.createValidIpWithArrayGetHost(jfList.searchValueByName(jfList.getServerArray(), sOld.getName(), "ip"));
 			serverNameTField.setText(sOld.getName());
 			ipAddr0TField.setText(sOld.getIpArr()[0]);
 			ipAddr1TField.setText(sOld.getIpArr()[1]);
@@ -303,6 +305,7 @@ public class ViewController implements Initializable {
 		}
 		clearServerField();
 	}
+
 	// #########################################################################
 	// ## Table ################################################################
 	// #########################################################################
@@ -314,16 +317,32 @@ public class ViewController implements Initializable {
 		updatedON.setCellValueFactory(new PropertyValueFactory<ServerPortTableContent, String>("updatedON"));
 		serverPortConTable.setItems(content);
 	}
+
 	public void addConfig() {
-		if(isServerChoose && isPortChoose) {
-			ServerPortConnection sp1 = new ServerPortConnection(serverComboBox.getValue(), portComboBox.getValue());
-			ServerPortConnectionQuery spQ1 = new ServerPortConnectionQuery("True"); 
-			ServerPortTableContent c = new ServerPortTableContent(sp1, spQ1);
-			content.add(c);
-			setTableContent();
+		if (isServerChoose && isPortChoose) {
+			ncService = new Service<>() {
+				@Override
+				protected Task<Object> createTask() {
+					return new Task<>() {
+						@Override
+						protected Object call() throws InterruptedException {
+					ServerPortConnection sp1 = new ServerPortConnection(serverComboBox.getValue(), portComboBox.getValue());
+					ServerPortConnectionQuery spQ1 = new ServerPortConnectionQuery(
+							jfList.searchValueByName(jfList.getServerArray(), serverComboBox.getValue(), "ip"),
+							jfList.searchValueByName(jfList.getPortsArray(), portComboBox.getValue(), "port"));
+					ServerPortTableContent c = new ServerPortTableContent(sp1, spQ1);
+					content.add(c);
+					setTableContent();
+					// TODO Auto-generated method stub
+					return null;
+				}
+			};
+		}
+	};
+	ncService.start();
 		}
 		clearPortField();
 		clearServerField();
 	}
-	
+
 }

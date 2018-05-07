@@ -2,6 +2,8 @@ package tools;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 
 public class ServerPortTableContent {
 
@@ -11,15 +13,16 @@ public class ServerPortTableContent {
 	private StringProperty connection;
 	private StringProperty updatedON;
 
-	
 	public ServerPortTableContent(ServerPortConnection sp, ServerPortConnectionQuery spQuery) {
+
 		this.port = new SimpleStringProperty(sp.getPort());
 		this.server = new SimpleStringProperty(sp.getServer());
 		this.createdON = new SimpleStringProperty(sp.getCreatedON());
 		this.connection = new SimpleStringProperty(spQuery.getIsConnected());
 		this.updatedON = new SimpleStringProperty(spQuery.getUpdatedON());
+
 	}
-	
+
 	// #########################################################################
 	// ## Getter und Setter ####################################################
 	// #########################################################################
@@ -27,14 +30,17 @@ public class ServerPortTableContent {
 	public String getPort() {
 		return port.get();
 	}
+
 	// << Server >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getServer() {
 		return server.get();
 	}
+
 	// << CreatedON >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getCreatedON() {
 		return createdON.get();
 	}
+
 	// << connceted >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public String getConnection() {
 		return connection.get();
@@ -44,6 +50,5 @@ public class ServerPortTableContent {
 	public String getUpdatedON() {
 		return updatedON.get();
 	}
-	
-	
+
 }

@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-//TODO syso -> l�schen								
-//TODO regEx -> bei add und edit Funktionen machen	�
+//TODO syso -> löschen								
+//TODO regEx -> bei add und edit Funktionen machen	
 //TODO Funktionsnamen ggf. anpassen					
 //TODO jUnit Tests schreiben 						!
 //TODO Ecxeption Handling 							!
@@ -20,12 +20,12 @@ import com.google.gson.JsonObject;
  * <p>
  * <b>Methoden:</b>
  * <ul>
- * <li>Einen Porteintrag hinzuf�gen:
+ * <li>Einen Porteintrag hinzufügen:
  * <b>{@link #addPort(String, String)}</b></li>
- * <li>Einen Porteintrag l�schen: <b>{@link #deletePort(String)}</b></li>
- * <li>Einen Servereintrag via Host hinzuf�gen:
+ * <li>Einen Porteintrag löschen: <b>{@link #deletePort(String)}</b></li>
+ * <li>Einen Servereintrag via Host hinzufügen:
  * <b>{@link #addServerViaHost(String, String)}</b></li>
- * <li>Einen Servereintrag via IP hinzuf�gen:
+ * <li>Einen Servereintrag via IP hinzufügen:
  * <b>{@link #addServerViaIP(String, String)}</b></li>
  * <li>Einen Servereintrag bearbeiten:
  * </ul>
@@ -35,7 +35,7 @@ import com.google.gson.JsonObject;
  * @version 1.0.0
  */
 
-public class JSONFileContentHandler extends JSONFileInitialisator {
+public class JSONContentHandler extends JSONFileInitialisator {
 
 	// ## Variablen ############################################################
 
@@ -123,7 +123,11 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 		}
 		return false;
 	}
-
+//TODO Methoden machen
+	private Boolean isQueryAvailable() {
+		return true;
+		
+	}
 	// #########################################################################
 	// ## search-Methode #######################################################
 	// #########################################################################
@@ -200,7 +204,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 
 	// --> Port ------------------------------------------------------------
 	/**
-	 * Fügt zwei Key-Value Paare f�r das PortsArray hinzu.
+	 * Fügt zwei Key-Value Paare für das PortsArray hinzu.
 	 * 
 	 * @param port
 	 */
@@ -219,7 +223,7 @@ public class JSONFileContentHandler extends JSONFileInitialisator {
 	 * bereits in dem Port-Objekt vorhanden sind. Wenn nicht, werden die neue Werte
 	 * mit der
 	 * {@link #addObjectInArrayAndWriteInFile(JsonArray, JsonObject, String)}-Methode
-	 * dem Array hinzugef�gt und in die Datei geschrieben.
+	 * dem Array hinzugefüt und in die Datei geschrieben.
 	 *
 	 * 
 	 * @param port
